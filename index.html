@@ -14,8 +14,13 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Aref+Ruqaa:wght@700&family=Bebas+Neue&family=Lalezar&family=Montserrat:wght@500;700;800&family=Noto+Color+Emoji&family=Noto+Kufi+Arabic:wght@900&family=Noto+Naskh+Arabic:wght@700&family=Permanent+Marker&family=Playfair+Display:wght@800&family=Rakkas&family=Reem+Kufi:wght@700&family=Vazirmatn:wght@400;500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alexandria:wght@900&family=Anton&family=Archivo+Black&family=Aref+Ruqaa:wght@700&family=Bebas+Neue&family=Bricolage+Grotesque:wght@800&family=Caveat:wght@700&family=DM+Serif+Display&family=Dancing+Script:wght@700&family=Estedad:wght@900&family=Gulzar&family=Katibeh&family=Lalezar&family=League+Spartan:wght@800&family=Lemonada:wght@700&family=Lobster&family=Markazi+Text:wght@700&family=Marhey:wght@700&family=Montserrat:wght@500;700;900&family=Noto+Color+Emoji&family=Noto+Kufi+Arabic:wght@900&family=Noto+Naskh+Arabic:wght@700&family=Noto+Nastaliq+Urdu:wght@700&family=Oswald:wght@700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:wght@800&family=Poppins:wght@800&family=Righteous&family=Space+Grotesk:wght@700&family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
+@font-face{font-family:Sahel;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/Sahel-Black.woff2) format("woff2");font-weight:900;font-display:swap}
+@font-face{font-family:Shabnam;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Samim;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/Samim-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Parastoo;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/parastoo-font@v2.0.1/dist/Parastoo-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Nahid;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/nahid-font@v0.3.0/dist/Nahid.woff2) format("woff2");font-weight:400;font-display:swap}
 :root{--bg:#0B0F14;--panel:#141B24;--line:#26313D;--ink:#F1F3F5;--muted:#9AA4AF;--lapis:#14315C;--turq:#2FA6A0;--saffron:#E8A33D;--emoji:"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji";--font:"Vazirmatn",Tahoma,var(--emoji),sans-serif}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -51,7 +56,36 @@ legend{padding:0 6px;color:var(--muted);font-size:13px}
 .swatches button{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);padding:0;cursor:pointer}
 .swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--ink)}
 .swatches input[type=color]{width:52px;height:40px;padding:2px;border:1px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer}
-#fontPreview{font-size:13px;color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:5px;max-width:440px}
+.tabs button{min-height:46px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:800 15px/1 var(--font);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--saffron);color:#0B0F14}
+.tabs button:focus-visible{outline:3px solid var(--turq);outline-offset:2px}
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.tpl{position:relative;display:flex;justify-content:center}
+.tpl>button:first-child{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;background:transparent;border:0;color:var(--ink);font:500 12px/1.4 var(--font);cursor:pointer;padding:6px 2px;border-radius:10px}
+.tpl>button:first-child canvas{width:58px;height:58px;border-radius:50%;box-shadow:0 0 0 2px var(--line)}
+.tpl>button[aria-pressed="true"] canvas{box-shadow:0 0 0 3px var(--saffron)}
+.tpl .del{position:absolute;top:0;inset-inline-end:2px;min-width:26px;height:26px;padding:0 6px;border-radius:13px;border:0;background:#3A4350;color:#fff;font:700 13px/26px var(--font);cursor:pointer}
+.tpl .del.armed{background:#E5484D}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px}
+.icon-grid button{height:44px;border-radius:9px;border:1px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.icon-grid button[aria-pressed="true"]{border-color:var(--saffron);box-shadow:inset 0 0 0 2px var(--saffron)}
+.icon-grid svg{width:24px;height:24px;stroke:var(--saffron);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.seg4{grid-template-columns:repeat(4,minmax(0,1fr))}
+#hlCanvas{aspect-ratio:9/16;border-radius:14px}
+canvas.circle{border-radius:50%;aspect-ratio:1/1;background:transparent}
+.hl-circles{gap:14px}
+.hl-small{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--ink)}
+.hl-small canvas{width:66px;height:66px;box-shadow:0 0 0 2px #3A4350,0 0 0 4px var(--bg)}
+.slide{display:grid;grid-template-columns:6.5em minmax(0,1fr);align-items:center;gap:10px;font-size:13.5px}
+.val{font-weight:500;color:var(--saffron);font-size:13px;margin-inline-start:6px}
+.coords{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:end}
+.coords b{align-self:center;font-size:13.5px;min-width:64px}
+.coords label{flex-direction:row;align-items:center;gap:6px;font-size:13px}
+input[type=number]{width:100%;min-width:0;min-height:44px;font:500 16px/1.5 var(--font);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:6px 8px}
+.mini-btn{min-height:44px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--ink);font:700 13px/1 var(--font);cursor:pointer}
+#cover{touch-action:none}
+@media (max-width:380px){.coords{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.coords b{grid-column:1/-1}.coords .mini-btn{grid-column:1/-1}}
 .actions{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 .btn{font:800 16px/1 var(--font);border:0;border-radius:10px;min-height:50px;padding:0 14px;cursor:pointer;background:var(--saffron);color:#0B0F14}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:700}
@@ -87,42 +121,88 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
 <body>
 <main class="wrap">
   <div>
-    <h1>کاورساز مسترتورلیدر</h1>
-    <p class="lead">عکس را انتخاب کنید، تیتر را بنویسید و PNG آماده‌ی آپلود (۱۰۸۰×۱۹۲۰) را بگیرید. خط‌چین‌ها فقط راهنما هستند و در فایل نهایی نیستند.</p>
+    <h1>استودیو مسترتورلیدر</h1>
+    <p class="lead" id="lead">کاور ریلز و کاور هایلایت بسازید و PNG آماده‌ی آپلود (۱۰۸۰×۱۹۲۰) بگیرید. خط‌چین‌ها فقط راهنما هستند و در فایل نهایی نیستند.</p>
   </div>
+  <nav class="tabs" role="tablist" aria-label="ابزارها">
+    <button type="button" role="tab" data-tab="cover" aria-selected="true">کاورساز</button>
+    <button type="button" role="tab" data-tab="hl" aria-selected="false">هایلایت‌ساز</button>
+  </nav>
+  <section id="tab-cover" role="tabpanel" aria-label="کاورساز">
   <div class="app">
     <form class="panel" id="form" onsubmit="return false">
-      <label>عکس کاور
-        <input type="file" id="photo" accept="image/*">
-        <span class="hint">بهترین نتیجه با عکس عمودی و باکیفیت. صورت یا سوژه را وسط کادر بگذارید.</span>
-      </label>
+      <fieldset>
+        <legend>عکس و جای عکس</legend>
+        <label class="slide">بزرگنمایی<input type="range" id="zoom" min="100" max="250" value="100"></label>
+        <label class="slide">چپ و راست<input type="range" id="ox" min="-100" max="100" step="0.5" value="0"></label>
+        <label class="slide">بالا و پایین<input type="range" id="oy" min="-100" max="100" step="0.5" value="0"></label>
+        <span class="hint">بدون بزرگنمایی هم جابه‌جا می‌شود. روی پیش‌نمایش بزرگ هم می‌توانید خود عکس را بگیرید و بکشید.</span>
+        <label>عکس کاور
+          <input type="file" id="photo" accept="image/*">
+          <span class="hint">بهترین نتیجه با عکس عمودی و باکیفیت.</span>
+        </label>
+      </fieldset>
       <label>تیتر
-        <textarea id="title" maxlength="60">من میلادم، همسفرت</textarea>
-        <span class="hint">حداکثر پنج کلمه. اگر طولانی باشد خودش به خط بعد می‌رود.</span>
+        <textarea id="title" maxlength="120" dir="auto">من میلادم، همسفرت</textarea>
+        <span class="hint">هر خط را می‌توانید فارسی یا انگلیسی بنویسید؛ جهت و فونت هر خط خودکار تشخیص داده می‌شود. مثلاً خط اول انگلیسی، با Enter خط دوم ترجمه‌ی فارسی.</span>
       </label>
-      <div class="seg" role="radiogroup" aria-label="جهت متن">
+      <span class="hint" style="margin-bottom:-8px"><b style="color:var(--ink)">جهت اصلی</b> · سمت مهر و باکس تیتر</span>
+      <div class="seg" role="radiogroup" aria-label="جهت اصلی">
         <label><input type="radio" name="dir" value="rtl" checked><span>راست‌به‌چپ · فارسی</span></label>
         <label><input type="radio" name="dir" value="ltr"><span>Left to right · English</span></label>
       </div>
-      <label>فونت تیتر
-        <select id="font">
-          <optgroup label="فارسی">
+      <div class="row">
+        <label>فونت خط‌های فارسی
+          <select id="font">
             <option value="lalezar">لاله‌زار (پیش‌فرض)</option>
-            <option value="vazir">وزیرمتن سیاه</option>
-            <option value="kufi">نوتو کوفی سیاه</option>
-            <option value="reem">ریم کوفی</option>
-            <option value="rakkas">رکاس</option>
-            <option value="ruqaa">رقعه</option>
+            <option value="vazir">وزیرمتن</option>
+            <option value="estedad">استعداد</option>
+            <option value="sahel">ساحل</option>
+            <option value="shabnam">شبنم</option>
+            <option value="samim">صمیم</option>
+            <option value="parastoo">پرستو</option>
+            <option value="nahid">ناهید</option>
+            <option value="kufi">کوفی</option>
+            <option value="alexandria">الکساندریا</option>
+            <option value="lemonada">لمونادا</option>
+            <option value="marhey">مرحی</option>
+            <option value="markazi">مرکزی</option>
             <option value="naskh">نسخ</option>
-          </optgroup>
-          <optgroup label="English">
-            <option value="bebas">Bebas Neue</option>
+            <option value="ruqaa">رقعه</option>
+            <option value="nastaliq">نستعلیق</option>
+            <option value="gulzar">گلزار (نستعلیق)</option>
+            <option value="katibeh">کتیبه</option>
+          </select>
+        </label>
+        <label>Font for English lines
+          <select id="fontEn" dir="ltr">
+            <option value="bebas">Bebas Neue (default)</option>
             <option value="anton">Anton</option>
-            <option value="montserrat">Montserrat ExtraBold</option>
+            <option value="oswald">Oswald</option>
+            <option value="montserrat">Montserrat Black</option>
+            <option value="poppins">Poppins ExtraBold</option>
             <option value="archivo">Archivo Black</option>
+            <option value="spartan">League Spartan</option>
+            <option value="bricolage">Bricolage Grotesque</option>
+            <option value="grotesk">Space Grotesk</option>
             <option value="playfair">Playfair Display</option>
+            <option value="dmserif">DM Serif Display</option>
+            <option value="abril">Abril Fatface</option>
+            <option value="righteous">Righteous</option>
             <option value="marker">Permanent Marker</option>
-          </optgroup>
+            <option value="pacifico">Pacifico</option>
+            <option value="lobster">Lobster</option>
+            <option value="caveat">Caveat</option>
+            <option value="dancing">Dancing Script</option>
+          </select>
+        </label>
+      </div>
+      <label>چینش متن‌ها
+        <select id="align">
+          <option value="auto">خودکار (هر خط سمت زبان خودش)</option>
+          <option value="right">همه راست</option>
+          <option value="center">همه وسط</option>
+          <option value="left">همه چپ</option>
         </select>
       </label>
       <div class="row">
@@ -136,13 +216,20 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
           </select>
         </label>
         <label>برچسب سری
-          <input type="text" id="label" value="درباره‌ی من">
+          <input type="text" id="label" value="درباره‌ی من" dir="auto">
         </label>
       </div>
       <label>خط دعوت به اقدام
-        <input type="text" id="cta" value="" placeholder="مثلاً: کامنت کن «ویتنام»">
+        <input type="text" id="cta" value="" dir="auto" placeholder="مثلاً: کامنت کن «ویتنام»">
         <span class="hint">خالی بگذارید تا نمایش داده نشود.</span>
       </label>
+      <fieldset>
+        <legend>اندازه‌ی متن</legend>
+        <label>تیتر فارسی <output id="titleSizeOut" class="val">۱۰۰٪</output><input type="range" id="titleSize" min="50" max="180" step="5" value="100"></label>
+        <label>تیتر انگلیسی <output id="titleSizeEnOut" class="val">۱۰۰٪</output><input type="range" id="titleSizeEn" min="50" max="180" step="5" value="100"></label>
+        <label>برچسب سری <output id="labelSizeOut" class="val">۱۰۰٪</output><input type="range" id="labelSize" min="50" max="180" step="5" value="100"></label>
+        <label>خط دعوت به اقدام <output id="ctaSizeOut" class="val">۱۰۰٪</output><input type="range" id="ctaSize" min="50" max="180" step="5" value="100"></label>
+      </fieldset>
       <fieldset>
         <legend>خط دور باکس تیتر</legend>
         <label class="check"><input type="checkbox" id="border"> نمایش خط دور</label>
@@ -186,10 +273,27 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         </div>
       </fieldset>
       <fieldset>
-        <legend>جای عکس</legend>
-        <label>بزرگنمایی<input type="range" id="zoom" min="100" max="250" value="100"></label>
-        <label>چپ و راست<input type="range" id="ox" min="-100" max="100" value="0"></label>
-        <label>بالا و پایین<input type="range" id="oy" min="-100" max="100" value="0"></label>
+        <legend>جای باکس تیتر و مهر</legend>
+        <span class="hint">روی پیش‌نمایش بزرگ، باکس تیتر یا مهر را بگیرید و بکشید. یا عدد دقیق را وارد کنید (واحد: پیکسل در کاور ۱۰۸۰×۱۹۲۰).</span>
+        <label class="check"><input type="checkbox" id="fullWidth" checked> باکس تیتر تمام‌عرض</label>
+        <div class="coords">
+          <b>باکس تیتر</b>
+          <label>X<input type="number" id="plateX" inputmode="numeric" step="1" dir="ltr"></label>
+          <label>Y<input type="number" id="plateY" inputmode="numeric" step="1" dir="ltr"></label>
+          <button type="button" class="mini-btn" id="plateCenter">وسط</button>
+        </div>
+        <div class="coords">
+          <b>مهر</b>
+          <label>X<input type="number" id="stampX" inputmode="numeric" step="1" dir="ltr"></label>
+          <label>Y<input type="number" id="stampY" inputmode="numeric" step="1" dir="ltr"></label>
+          <button type="button" class="mini-btn" id="stampCenter">وسط</button>
+        </div>
+        <button type="button" class="btn ghost" id="resetPos">برگرداندن جای پیش‌فرض</button>
+      </fieldset>
+      <fieldset>
+        <legend>کادر گرید پروفایل</legend>
+        <label class="slide">جای کادر گرید<input type="range" id="gridTop" min="0" max="480" step="1" value="240"></label>
+        <span class="hint">اینستاگرام خانه‌ی گرید را از خود کاور ریلز می‌بُرد (کادر ۳:۴). این کادر را بالا و پایین ببرید تا بهترین بخش کاور در گرید بیفتد، بدون اینکه طرح کاور ریلز تغییر کند. در اینستاگرام هم موقع انتخاب کاور، با «Crop profile image» همین بخش را انتخاب کنید.</span>
       </fieldset>
       <label class="check"><input type="checkbox" id="guides" checked> نمایش خط‌چین کادر گرید</label>
       <div class="actions">
@@ -204,10 +308,95 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     </div>
     <button type="button" class="mini is-hidden" id="mini" aria-label="رفتن به پیش‌نمایش بزرگ"><canvas id="miniCanvas" width="152" height="270"></canvas><span>پیش‌نمایش</span></button>
   </div>
+  </section>
+  <section id="tab-hl" role="tabpanel" aria-label="هایلایت‌ساز" hidden>
+  <div class="app">
+    <form class="panel" id="hlForm" onsubmit="return false">
+      <fieldset>
+        <legend>قالب‌های آماده</legend>
+        <div class="tpl-grid" id="hlDefaults"></div>
+      </fieldset>
+      <fieldset>
+        <legend>قالب‌های من</legend>
+        <div class="tpl-grid" id="hlMine"></div>
+        <p class="hint" id="hlMineEmpty" style="margin:0">هنوز قالبی ذخیره نکرده‌اید. طرح را بسازید، اسم بگذارید و «ذخیره قالب» را بزنید.</p>
+        <div class="row">
+          <label>اسم قالب<input type="text" id="hlName" value="تور بعدی" placeholder="مثلاً: تور ترکیه"></label>
+          <button type="button" class="btn ghost" id="hlSave" style="align-self:end">ذخیره قالب</button>
+        </div>
+        <span class="hint">قالب‌ها فقط روی همین گوشی یا مرورگر ذخیره می‌شوند.</span>
+      </fieldset>
+      <fieldset>
+        <legend>محتوای وسط</legend>
+        <div class="seg seg4" role="radiogroup" aria-label="نوع محتوا">
+          <label><input type="radio" name="hlType" value="icon" checked><span>آیکون</span></label>
+          <label><input type="radio" name="hlType" value="emoji"><span>پرچم</span></label>
+          <label><input type="radio" name="hlType" value="text"><span>متن</span></label>
+          <label><input type="radio" name="hlType" value="photo"><span>عکس</span></label>
+        </div>
+        <div id="hlIconBox"><div class="icon-grid" id="hlIcons" role="group" aria-label="آیکون‌ها"></div></div>
+        <div id="hlEmojiBox" hidden>
+          <label>پرچم یا اموجی<input type="text" id="hlEmoji" value="🇻🇳" maxlength="8"></label>
+          <div class="flags" id="hlFlags" role="group" aria-label="پرچم‌های آماده"></div>
+        </div>
+        <div id="hlTextBox" hidden>
+          <div class="row">
+            <label>متن<input type="text" id="hlText" value="HAN" dir="auto" maxlength="14"></label>
+            <label>فونت
+              <select id="hlFont">
+                <option value="bebas">Bebas Neue</option>
+                <option value="anton">Anton</option>
+                <option value="montserrat">Montserrat Black</option>
+                <option value="lalezar">لاله‌زار</option>
+                <option value="vazir">وزیرمتن</option>
+                <option value="estedad">استعداد</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="hlPhotoBox" hidden>
+          <label>عکس داخل دایره<input type="file" id="hlPhoto" accept="image/*"></label>
+          <label class="slide">بزرگنمایی<input type="range" id="hlPhotoZoom" min="100" max="300" value="100"></label>
+        </div>
+        <label class="slide">اندازه<input type="range" id="hlSize" min="120" max="900" value="480"></label>
+        <label class="slide" id="hlStrokeRow">ضخامت خط<input type="range" id="hlStroke" min="0.6" max="3" step="0.05" value="1.25"></label>
+        <div class="swatches" id="hlColorSw" role="group" aria-label="رنگ محتوا"><input type="color" id="hlColor" value="#E8A33D" aria-label="رنگ دلخواه محتوا"></div>
+      </fieldset>
+      <fieldset>
+        <legend>پس‌زمینه</legend>
+        <div class="swatches" id="hlBgSw" role="group" aria-label="رنگ پس‌زمینه"><input type="color" id="hlBg" value="#14315C" aria-label="رنگ دلخواه پس‌زمینه"></div>
+        <label>عکس پس‌زمینه (اختیاری)<input type="file" id="hlBgPhoto" accept="image/*"></label>
+        <label class="slide">تیرگی عکس<input type="range" id="hlBgDim" min="0" max="85" value="35"></label>
+        <button type="button" class="mini-btn" id="hlBgClear">حذف عکس پس‌زمینه</button>
+      </fieldset>
+      <fieldset>
+        <legend>حلقه</legend>
+        <label class="check"><input type="checkbox" id="hlRing" checked> نمایش حلقه</label>
+        <div class="swatches" id="hlRingSw" role="group" aria-label="رنگ حلقه"><input type="color" id="hlRingColor" value="#2FA6A0" aria-label="رنگ دلخواه حلقه"></div>
+        <label class="slide">ضخامت<input type="range" id="hlRingW" min="4" max="60" value="16"></label>
+        <label class="slide">اندازه<input type="range" id="hlRingR" min="300" max="540" value="482"></label>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn" id="hlDownload">دانلود PNG</button>
+        <button type="button" class="btn ghost" id="hlReset">پیش‌فرض</button>
+      </div>
+      <p class="status" id="hlStatus" role="status"></p>
+    </form>
+    <div class="stage">
+      <figure class="fig-cover"><canvas id="hlCanvas" width="1080" height="1920" aria-label="پیش‌نمایش فایل کاور هایلایت"></canvas><figcaption>فایل ۱۰۸۰×۱۹۲۰</figcaption></figure>
+      <figure class="fig-tile hl-circles">
+        <canvas id="hlCircle" class="circle" width="360" height="360" aria-label="پیش‌نمایش دایره‌ی هایلایت"></canvas>
+        <div class="hl-small"><canvas id="hlCircleSm" class="circle" width="132" height="132" aria-hidden="true"></canvas><span id="hlLabel">تور بعدی</span></div>
+        <figcaption>در پروفایل</figcaption>
+      </figure>
+    </div>
+  </div>
+  </section>
 </main>
 <script>
 (function () {
-  var W = 1080, H = 1920, SAFE_TOP = 240, SAFE_H = 1440;
+  var W = 1080, H = 1920, SAFE_H = 1440;
+  function gridTop() { var el = document.getElementById("gridTop"); return el ? +el.value : 240; }
   var EMOJI = '"Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji"';
   var C = { lapis: "#14315C", turq: "#5CC8C2", saffron: "#E8A33D", pink: "#F3C9D1", white: "#FFFFFF" };
   var SERIES = {
@@ -217,26 +406,60 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     personal: { color: C.pink,    outline: false, label: "حرف دل" },
     about:    { color: C.saffron, outline: true,  label: "درباره‌ی من" }
   };
-  var FONTS = {
-    lalezar:    { family: "Lalezar",           weight: "400", size: 103, dir: "rtl" },
-    vazir:      { family: "Vazirmatn",         weight: "900", size: 92,  dir: "rtl" },
-    kufi:       { family: "Noto Kufi Arabic",  weight: "900", size: 80,  dir: "rtl" },
-    reem:       { family: "Reem Kufi",         weight: "700", size: 98,  dir: "rtl" },
-    rakkas:     { family: "Rakkas",            weight: "400", size: 100, dir: "rtl" },
-    ruqaa:      { family: "Aref Ruqaa",        weight: "700", size: 96,  dir: "rtl" },
-    naskh:      { family: "Noto Naskh Arabic", weight: "700", size: 90,  dir: "rtl" },
-    bebas:      { family: "Bebas Neue",        weight: "400", size: 146, dir: "ltr" },
-    anton:      { family: "Anton",             weight: "400", size: 112, dir: "ltr" },
-    montserrat: { family: "Montserrat",        weight: "800", size: 92,  dir: "ltr" },
-    archivo:    { family: "Archivo Black",     weight: "400", size: 90,  dir: "ltr" },
-    playfair:   { family: "Playfair Display",  weight: "800", size: 100, dir: "ltr" },
-    marker:     { family: "Permanent Marker",  weight: "400", size: 96,  dir: "ltr" }
+  var FA_FONTS = {
+    lalezar:   { family: "Lalezar",            weight: "400", size: 103 },
+    vazir:     { family: "Vazirmatn",          weight: "900", size: 92 },
+    estedad:   { family: "Estedad",            weight: "900", size: 90 },
+    sahel:     { family: "Sahel",              weight: "900", size: 96 },
+    shabnam:   { family: "Shabnam",            weight: "700", size: 92 },
+    samim:     { family: "Samim",              weight: "700", size: 92 },
+    parastoo:  { family: "Parastoo",           weight: "700", size: 94 },
+    nahid:     { family: "Nahid",              weight: "400", size: 100 },
+    kufi:      { family: "Noto Kufi Arabic",   weight: "900", size: 80 },
+    alexandria:{ family: "Alexandria",         weight: "900", size: 80 },
+    lemonada:  { family: "Lemonada",           weight: "700", size: 76 },
+    marhey:    { family: "Marhey",             weight: "700", size: 88 },
+    markazi:   { family: "Markazi Text",       weight: "700", size: 106 },
+    naskh:     { family: "Noto Naskh Arabic",  weight: "700", size: 90 },
+    ruqaa:     { family: "Aref Ruqaa",         weight: "700", size: 96, lh: 1.5 },
+    nastaliq:  { family: "Noto Nastaliq Urdu", weight: "700", size: 70, lh: 2.0 },
+    gulzar:    { family: "Gulzar",             weight: "400", size: 90, lh: 1.75 },
+    katibeh:   { family: "Katibeh",            weight: "400", size: 116 }
   };
-  var DEFAULT_FONT = { rtl: "lalezar", ltr: "bebas" };
+  var EN_FONTS = {
+    bebas:     { family: "Bebas Neue",          weight: "400", size: 146 },
+    anton:     { family: "Anton",               weight: "400", size: 112 },
+    oswald:    { family: "Oswald",              weight: "700", size: 112 },
+    montserrat:{ family: "Montserrat",          weight: "900", size: 90 },
+    poppins:   { family: "Poppins",             weight: "800", size: 94 },
+    archivo:   { family: "Archivo Black",       weight: "400", size: 90 },
+    spartan:   { family: "League Spartan",      weight: "800", size: 104 },
+    bricolage: { family: "Bricolage Grotesque", weight: "800", size: 100 },
+    grotesk:   { family: "Space Grotesk",       weight: "700", size: 100 },
+    playfair:  { family: "Playfair Display",    weight: "800", size: 100 },
+    dmserif:   { family: "DM Serif Display",    weight: "400", size: 108 },
+    abril:     { family: "Abril Fatface",       weight: "400", size: 104 },
+    righteous: { family: "Righteous",           weight: "400", size: 104 },
+    marker:    { family: "Permanent Marker",    weight: "400", size: 96 },
+    pacifico:  { family: "Pacifico",            weight: "400", size: 86, lh: 1.6 },
+    lobster:   { family: "Lobster",             weight: "400", size: 106 },
+    caveat:    { family: "Caveat",              weight: "700", size: 124 },
+    dancing:   { family: "Dancing Script",      weight: "700", size: 110 }
+  };
   var $ = function (id) { return document.getElementById(id); };
   function getDir() { var r = document.querySelector('input[name="dir"]:checked'); return r ? r.value : "rtl"; }
-  function titleFont() { return FONTS[$("font").value] || FONTS.lalezar; }
+  function faFont() { return FA_FONTS[$("font").value] || FA_FONTS.lalezar; }
+  function enFont() { return EN_FONTS[$("fontEn").value] || EN_FONTS.bebas; }
   function fontSpec(f) { return f.weight + " " + f.size + "px \"" + f.family + "\""; }
+  var RTL_CHAR = /[֐-ࣿיִ-﷿ﹰ-﻿]/, LTR_CHAR = /[A-Za-zÀ-ɏ]/;
+  function lineDir(text, fallback) {
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (RTL_CHAR.test(ch)) return "rtl";
+      if (LTR_CHAR.test(ch)) return "ltr";
+    }
+    return fallback;
+  }
   var cover = $("cover"), ctx = cover.getContext("2d");
   var tile = $("tile"), tctx = tile.getContext("2d");
   var miniCanvas = $("miniCanvas"), mctx = miniCanvas.getContext("2d");
@@ -275,44 +498,87 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     var s = Math.max(W / img.naturalWidth, H / img.naturalHeight) * z;
     var dw = img.naturalWidth * s, dh = img.naturalHeight * s;
     var ex = dw - W, ey = dh - H;
-    var dx = -ex / 2 - (ex / 2) * ($("ox").value / 100);
-    var dy = -ey / 2 - (ey / 2) * ($("oy").value / 100);
+    var dx = -ex / 2 - (W / 2) * ($("ox").value / 100);
+    var dy = -ey / 2 - (H / 2) * ($("oy").value / 100);
     ctx.drawImage(img, dx, dy, dw, dh);
+  }
+
+  var pos = { plate: null, stamp: null }, lastPlate = null, lastStamp = null, drag = null, snapX = false;
+  function pct(id) { return $(id).value / 100; }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  function wrapWith(text, maxW, f) {
+    ctx.font = f;
+    var words = text.trim().split(/\s+/).filter(Boolean), out = [], line = "";
+    words.forEach(function (w) {
+      var test = line ? line + " " + w : w;
+      if (ctx.measureText(test).width > maxW && line) { out.push(line); line = w; } else { line = test; }
+    });
+    if (line) out.push(line);
+    return out;
+  }
+
+  function buildRows(maxTextW, base) {
+    var fa = faFont(), en = enFont();
+    var fs = pct("titleSize"), es = pct("titleSizeEn"), ls = pct("labelSize"), cs = pct("ctaSize");
+    var title = $("title").value.trim() || "تیتر ویدیو";
+    var rows = [];
+    var label = $("label").value.trim(), cta = $("cta").value.trim();
+    if (label) {
+      var ld = lineDir(label, base), lf = font("700", Math.round(50 * ls), ld === "rtl" ? "Vazirmatn" : "Montserrat");
+      rows.push({ kind: "label", text: label, dir: ld, f: lf, h: Math.round(74 * ls), nudge: -6 * ls });
+    }
+    title.split(/\n/).forEach(function (para) {
+      if (!para.trim()) return;
+      var d = lineDir(para, base), spec = d === "rtl" ? fa : en, sc = d === "rtl" ? fs : es;
+      var size = Math.round(spec.size * sc), f = font(spec.weight, size, '"' + spec.family + '"');
+      ctx.direction = d;
+      wrapWith(para, maxTextW, f).forEach(function (l) {
+        rows.push({ kind: "title", text: l, dir: d, f: f, h: Math.round(size * (spec.lh || 1.32)), nudge: 4 * sc });
+      });
+    });
+    rows = rows.filter(function (r, i) { return r.kind !== "title" || rows.slice(0, i + 1).filter(function (x) { return x.kind === "title"; }).length <= 5; });
+    if (cta) {
+      var cd = lineDir(cta, base), cf = font("500", Math.round(52 * cs), cd === "rtl" ? "Vazirmatn" : "Montserrat");
+      rows.push({ kind: "cta", text: cta, dir: cd, f: cf, h: Math.round(80 * cs), nudge: -4 * cs });
+    }
+    return rows;
   }
 
   function drawPlate() {
     var s = SERIES[$("series").value];
-    var title = $("title").value.trim() || "تیتر ویدیو";
-    var label = $("label").value.trim();
-    var cta = $("cta").value.trim();
-    var dir = getDir(), rtl = dir === "rtl", tf = titleFont();
-    var small = rtl ? "Vazirmatn" : "Montserrat";
-    var x = 54, w = W - 108, padX = 54, padTop = 38, padBottom = 46;
-    ctx.direction = dir;
-    ctx.font = font(tf.weight, tf.size, '"' + tf.family + '"');
-    var lines = wrap(title, w - padX * 2);
-    var labelH = label ? 74 : 0, titleLH = Math.round(tf.size * 1.32), ctaH = cta ? 80 : 0;
-    var h = padTop + labelH + lines.length * titleLH + ctaH + padBottom;
-    var bottom = SAFE_TOP + SAFE_H - 66, y = bottom - h;
+    var base = getDir(), rtl = base === "rtl", align = $("align").value;
+    var padX = 54, padTop = 38, padBottom = 46, maxW = W - 108;
+    var rows = buildRows(maxW - padX * 2, base);
+    var textW = 0;
+    rows.forEach(function (r) { ctx.font = r.f; ctx.direction = r.dir; r.w = ctx.measureText(r.text).width; textW = Math.max(textW, r.w); });
+    var full = $("fullWidth").checked;
+    var w = full ? maxW : clamp(Math.ceil(textW) + padX * 2, 300, maxW);
+    var h = padTop + rows.reduce(function (a, r) { return a + r.h; }, 0) + padBottom;
+    var x, y;
+    if (pos.plate) { x = pos.plate.x; y = pos.plate.y; }
+    else { x = full ? 54 : (rtl ? W - 54 - w : 54); y = 240 + SAFE_H - 66 - h; }
+    x = clamp(x, 0, W - w); y = clamp(y, 0, H - h);
     roundRect(x, y, w, h, 36);
     ctx.fillStyle = C.lapis; ctx.fill();
     if ($("border").checked) { ctx.lineWidth = 7; ctx.strokeStyle = $("borderColor").value; ctx.stroke(); }
-    ctx.textAlign = rtl ? "right" : "left"; ctx.textBaseline = "middle";
-    var tx = rtl ? x + w - padX : x + padX, cy = y + padTop;
-    if (label) {
-      ctx.font = font("700", 50, small); ctx.fillStyle = s.color;
-      ctx.fillText(label, tx, cy + labelH / 2 - 6); cy += labelH;
-    }
-    ctx.font = font(tf.weight, tf.size, '"' + tf.family + '"'); ctx.fillStyle = C.white;
-    lines.forEach(function (l) { ctx.fillText(l, tx, cy + titleLH / 2 + 4); cy += titleLH; });
-    if (cta) {
-      ctx.font = font("500", 52, small); ctx.fillStyle = "#D8DEE6";
-      ctx.fillText(cta, tx, cy + ctaH / 2 - 4);
-    }
-    return y;
+    ctx.textBaseline = "middle";
+    var cy = y + padTop;
+    rows.forEach(function (r) {
+      var side = align === "auto" ? (r.dir === "rtl" ? "right" : "left") : align;
+      var tx = side === "right" ? x + w - padX : side === "left" ? x + padX : x + w / 2;
+      ctx.direction = r.dir; ctx.font = r.f;
+      ctx.textAlign = side === "center" ? "center" : side;
+      ctx.fillStyle = r.kind === "label" ? s.color : r.kind === "cta" ? "#D8DEE6" : C.white;
+      ctx.fillText(r.text, tx, cy + r.h / 2 + r.nudge);
+      cy += r.h;
+    });
+    lastPlate = { x: x, y: y, w: w, h: h };
+    return lastPlate;
   }
 
-  function drawStamp(plateTop) {
+  function drawStamp(plate) {
+    lastStamp = null;
     if (!$("stamp").checked) return;
     var s = SERIES[$("series").value];
     var emoji = $("emoji").value.trim(), code = $("code").value.trim().toUpperCase(), sub = $("sub").value.trim();
@@ -322,7 +588,10 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     if (sub) items.push({ t: sub, f: font("700", emoji ? 32 : 38, "Vazirmatn"), lh: emoji ? 44 : 52, dir: "rtl" });
     if (!items.length) return;
     var rtl = getDir() === "rtl";
-    var r = 126, cx = rtl ? 63 + r : W - 63 - r, cy = Math.min(SAFE_TOP + 57 + r, plateTop - r - 30);
+    var r = 126, cx, cy;
+    if (pos.stamp) { cx = pos.stamp.x; cy = pos.stamp.y; }
+    else { cx = rtl ? 63 + r : W - 63 - r; cy = Math.min(240 + 57 + r, plate.y - r - 30); }
+    cx = clamp(cx, r, W - r); cy = clamp(cy, r, H - r);
     ctx.save(); ctx.translate(cx, cy); ctx.rotate((rtl ? -10 : 10) * Math.PI / 180);
     ctx.beginPath(); ctx.arc(0, 0, r - 5, 0, Math.PI * 2);
     ctx.fillStyle = C.lapis; ctx.fill(); ctx.lineWidth = 9; ctx.strokeStyle = s.color; ctx.stroke();
@@ -334,25 +603,111 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
       y += it.lh;
     });
     ctx.restore();
+    lastStamp = { cx: cx, cy: cy, r: r };
   }
 
   function drawGuides() {
     ctx.save(); ctx.setLineDash([24, 18]); ctx.lineWidth = 5; ctx.strokeStyle = "rgba(255,255,255,.75)";
-    ctx.beginPath(); ctx.moveTo(0, SAFE_TOP); ctx.lineTo(W, SAFE_TOP); ctx.moveTo(0, SAFE_TOP + SAFE_H); ctx.lineTo(W, SAFE_TOP + SAFE_H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, gridTop()); ctx.lineTo(W, gridTop()); ctx.moveTo(0, gridTop() + SAFE_H); ctx.lineTo(W, gridTop() + SAFE_H); ctx.stroke();
     ctx.restore();
   }
 
-  function render(withGuides) {
-    drawPhoto();
-    var plateTop = drawPlate();
-    drawStamp(plateTop);
-    tctx.clearRect(0, 0, tile.width, tile.height);
-    tctx.drawImage(cover, 0, SAFE_TOP, W, SAFE_H, 0, 0, tile.width, tile.height);
-    mctx.drawImage(cover, 0, 0, W, H, 0, 0, miniCanvas.width, miniCanvas.height);
-    if (withGuides) drawGuides();
+  function drawSelection() {
+    if (!drag) return;
+    ctx.save(); ctx.setLineDash([18, 12]); ctx.lineWidth = 6; ctx.strokeStyle = C.saffron;
+    if (drag.k === "plate" && lastPlate) { roundRect(lastPlate.x - 12, lastPlate.y - 12, lastPlate.w + 24, lastPlate.h + 24, 44); ctx.stroke(); }
+    if (drag.k === "stamp" && lastStamp) { ctx.beginPath(); ctx.arc(lastStamp.cx, lastStamp.cy, lastStamp.r + 14, 0, Math.PI * 2); ctx.stroke(); }
+    if (snapX) { ctx.setLineDash([]); ctx.lineWidth = 4; ctx.strokeStyle = "#FF4FD8"; ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke(); }
+    ctx.restore();
   }
 
-  function draw() { render($("guides").checked); }
+  function setVal(id, v) { var el = $(id); if (document.activeElement !== el) el.value = Math.round(v); }
+
+  function syncCoords() {
+    if (lastPlate) { setVal("plateX", lastPlate.x); setVal("plateY", lastPlate.y); }
+    var on = !!lastStamp;
+    ["stampX", "stampY", "stampCenter"].forEach(function (id) { $(id).disabled = !on; });
+    if (on) { setVal("stampX", lastStamp.cx); setVal("stampY", lastStamp.cy); }
+  }
+
+  function render(preview) {
+    drawPhoto();
+    var plate = drawPlate();
+    drawStamp(plate);
+    tctx.clearRect(0, 0, tile.width, tile.height);
+    tctx.drawImage(cover, 0, gridTop(), W, SAFE_H, 0, 0, tile.width, tile.height);
+    mctx.drawImage(cover, 0, 0, W, H, 0, 0, miniCanvas.width, miniCanvas.height);
+    if (preview) {
+      if ($("guides").checked) drawGuides();
+      drawSelection();
+    }
+    syncCoords();
+  }
+
+  function draw() { render(true); }
+
+  function toCanvas(e) {
+    var r = cover.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height };
+  }
+  function hitTest(p) {
+    if (lastStamp && Math.hypot(p.x - lastStamp.cx, p.y - lastStamp.cy) <= lastStamp.r) return "stamp";
+    if (lastPlate && p.x >= lastPlate.x && p.x <= lastPlate.x + lastPlate.w && p.y >= lastPlate.y && p.y <= lastPlate.y + lastPlate.h) return "plate";
+    return null;
+  }
+  cover.addEventListener("pointerdown", function (e) {
+    var p = toCanvas(e), k = hitTest(p) || (hasImg ? "photo" : null);
+    if (!k) return;
+    e.preventDefault();
+    cover.setPointerCapture(e.pointerId);
+    if (k === "photo") drag = { k: k, sx: p.x, sy: p.y, ox0: +$("ox").value, oy0: +$("oy").value };
+    else drag = k === "stamp" ? { k: k, dx: p.x - lastStamp.cx, dy: p.y - lastStamp.cy } : { k: k, dx: p.x - lastPlate.x, dy: p.y - lastPlate.y };
+    cover.style.cursor = "grabbing";
+    draw();
+  });
+  cover.addEventListener("pointermove", function (e) {
+    var p = toCanvas(e);
+    if (!drag) { cover.style.cursor = hitTest(p) || hasImg ? "grab" : ""; return; }
+    e.preventDefault();
+    if (drag.k === "photo") {
+      $("ox").value = clamp(drag.ox0 - (p.x - drag.sx) / (W / 2) * 100, -100, 100);
+      $("oy").value = clamp(drag.oy0 - (p.y - drag.sy) / (H / 2) * 100, -100, 100);
+      draw();
+      return;
+    }
+    var nx = p.x - drag.dx, ny = p.y - drag.dy;
+    snapX = false;
+    if (drag.k === "plate") {
+      if (Math.abs(nx + lastPlate.w / 2 - W / 2) < 20) { nx = W / 2 - lastPlate.w / 2; snapX = true; }
+      pos.plate = { x: nx, y: ny };
+    } else {
+      if (Math.abs(nx - W / 2) < 20) { nx = W / 2; snapX = true; }
+      pos.stamp = { x: nx, y: ny };
+    }
+    draw();
+  });
+  function endDrag() { if (!drag) return; drag = null; snapX = false; cover.style.cursor = ""; draw(); }
+  cover.addEventListener("pointerup", endDrag);
+  cover.addEventListener("pointercancel", endDrag);
+
+  function readPair(a, b) { var x = parseFloat($(a).value), y = parseFloat($(b).value); return isNaN(x) || isNaN(y) ? null : { x: x, y: y }; }
+  ["plateX", "plateY"].forEach(function (id) { $(id).addEventListener("input", function () { var v = readPair("plateX", "plateY"); if (v) { pos.plate = v; draw(); } }); });
+  ["stampX", "stampY"].forEach(function (id) { $(id).addEventListener("input", function () { var v = readPair("stampX", "stampY"); if (v) { pos.stamp = v; draw(); } }); });
+  ["plateX", "plateY", "stampX", "stampY"].forEach(function (id) { $(id).addEventListener("change", draw); });
+  $("plateCenter").addEventListener("click", function () { if (lastPlate) { pos.plate = { x: W / 2 - lastPlate.w / 2, y: lastPlate.y }; draw(); } });
+  $("stampCenter").addEventListener("click", function () { if (lastStamp) { pos.stamp = { x: W / 2, y: lastStamp.cy }; draw(); } });
+  $("resetPos").addEventListener("click", function () { pos.plate = null; pos.stamp = null; draw(); });
+  $("fullWidth").addEventListener("change", draw);
+
+  function showPct(id) { $(id + "Out").textContent = Number($(id).value).toLocaleString("fa-IR") + "٪"; }
+  ["titleSize", "titleSizeEn", "labelSize", "ctaSize"].forEach(function (id) {
+    showPct(id);
+    $(id).addEventListener("input", function () { showPct(id); draw(); });
+  });
+  function resetLayout() {
+    pos.plate = null; pos.stamp = null; $("fullWidth").checked = true;
+    ["titleSize", "titleSizeEn", "labelSize", "ctaSize"].forEach(function (id) { $(id).value = 100; showPct(id); });
+  }
 
   function loadEmojiThenDraw() {
     var e = $("emoji").value.trim();
@@ -389,21 +744,19 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   }
   function loadFontThenDraw() {
     draw();
-    var tf = titleFont();
-    var sample = $("title").value || (tf.dir === "rtl" ? "ابپچژگ" : "Abc");
+    var t = ($("title").value || "") + " " + $("label").value + " " + $("cta").value;
     Promise.all([
-      document.fonts.load(fontSpec(tf), sample),
-      document.fonts.load((getDir() === "rtl" ? "700 50px Vazirmatn" : "700 50px Montserrat"))
+      document.fonts.load(fontSpec(faFont()), t + " ابپچژگ"),
+      document.fonts.load(fontSpec(enFont()), t + " Abc"),
+      document.fonts.load("700 50px Vazirmatn", t),
+      document.fonts.load("700 50px Montserrat", t)
     ]).then(draw, draw);
   }
-  function applyDir() {
-    var dir = getDir();
-    ["title", "label", "cta"].forEach(function (id) { $(id).setAttribute("dir", dir); });
-    if (titleFont().dir !== dir) $("font").value = DEFAULT_FONT[dir];
-    loadFontThenDraw();
-  }
+  function applyDir() { loadFontThenDraw(); }
   Array.prototype.forEach.call(document.querySelectorAll('input[name="dir"]'), function (r) { r.addEventListener("change", applyDir); });
   $("font").addEventListener("change", loadFontThenDraw);
+  $("fontEn").addEventListener("change", loadFontThenDraw);
+  $("align").addEventListener("change", draw);
   $("border").addEventListener("change", draw);
   $("borderColor").addEventListener("input", function () { $("border").checked = true; markSwatch(); draw(); });
   $("swatches").addEventListener("click", function (e) {
@@ -411,7 +764,8 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     $("borderColor").value = b.dataset.c; $("border").checked = true; markSwatch(); draw();
   });
   $("series").addEventListener("change", function () { $("label").value = SERIES[$("series").value].label; applySeriesBorder(); draw(); });
-  ["label", "cta", "code", "sub", "zoom", "ox", "oy"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  ["code", "sub", "zoom", "ox", "oy", "gridTop"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  ["label", "cta"].forEach(function (id) { $(id).addEventListener("input", loadFontThenDraw); });
   $("title").addEventListener("input", loadFontThenDraw);
   ["stamp", "guides"].forEach(function (id) { $(id).addEventListener("change", draw); });
 
@@ -426,8 +780,8 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     $("title").value = "من میلادم، همسفرت"; $("series").value = "about"; $("label").value = SERIES.about.label;
     $("cta").value = ""; $("stamp").checked = true; $("emoji").value = "✈️"; $("code").value = ""; $("sub").value = "";
     $("zoom").value = 100; $("ox").value = 0; $("oy").value = 0;
-    document.querySelector('input[name="dir"][value="rtl"]').checked = true; $("font").value = "lalezar";
-    applySeriesBorder(); markFlag(); applyDir(); loadEmojiThenDraw();
+    document.querySelector('input[name="dir"][value="rtl"]').checked = true; $("font").value = "lalezar"; $("fontEn").value = "bebas"; $("align").value = "auto"; $("gridTop").value = 240;
+    resetLayout(); applySeriesBorder(); markFlag(); applyDir(); loadEmojiThenDraw();
   });
 
   function fileName() {
@@ -468,7 +822,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     }, { threshold: 0.25 }).observe(document.querySelector(".fig-cover"));
   }
   $("form").addEventListener("focusin", function (e) {
-    if (e.target.matches('input[type="text"], textarea, select')) { typing = true; updateMini(); }
+    if (e.target.matches('input[type="text"], input[type="number"], textarea, select')) { typing = true; updateMini(); }
   });
   $("form").addEventListener("focusout", function () { typing = false; setTimeout(updateMini, 150); });
   $("mini").addEventListener("click", function () {
@@ -488,6 +842,334 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     document.fonts.load('78px "Noto Color Emoji"', "🇺🇿🇻🇳🇮🇷")
   ]).then(draw, draw);
   document.fonts.ready.then(draw);
+})();
+</script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var tabs = document.querySelectorAll(".tabs button");
+  function showTab(name) {
+    Array.prototype.forEach.call(tabs, function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
+    $("tab-cover").hidden = name !== "cover";
+    $("tab-hl").hidden = name !== "hl";
+    try { localStorage.setItem("mtl-tab", name); } catch (e) {}
+  }
+  Array.prototype.forEach.call(tabs, function (b) { b.addEventListener("click", function () { showTab(b.dataset.tab); }); });
+  var saved = null;
+  try { saved = localStorage.getItem("mtl-tab"); } catch (e) {}
+  if (saved === "hl") showTab("hl");
+
+  var W = 1080, H = 1920, CX = 540, CY = 960;
+  var EMOJI = '"Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji"';
+  var ICONS = {
+    plane: ["M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"],
+    chatHeart: ["M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z", "M12 15.5s-3.2-1.9-3.2-4a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2.1-3.2 4-3.2 4z"],
+    calendar: ["M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z", "M3 10h18M8 3v4M16 3v4", "m9 15 2 2 4-4"],
+    lantern: ["M12 2v2.5M9.5 4.5h5", "M8 7h8c1.6 1.7 2.4 3.4 2.4 5s-.8 3.3-2.4 5H8c-1.6-1.7-2.4-3.4-2.4-5S6.4 8.7 8 7z", "M12 7v10M9.5 19.5h5M12 19.5V22"],
+    dome: ["M12 2v2M12 4c-3.6 1.4-6 4-6 8h12c0-4-2.4-6.6-6-8z", "M5 12h14M6 12v9M18 12v9M3 21h18", "M10 21v-4a2 2 0 0 1 4 0v4"],
+    arch: ["M4 21 9.5 3h5L20 21", "M8 21c0-3 1.8-5.5 4-5.5s4 2.5 4 5.5", "M7.3 10h9.4M2.5 21h19"],
+    person: ["M16 8a4 4 0 1 1-8 0a4 4 0 1 1 8 0", "M4 21c0-4 3.6-7 8-7s8 3 8 7"],
+    camera: ["M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z", "M15.5 13.5a3.5 3.5 0 1 1-7 0a3.5 3.5 0 1 1 7 0"],
+    video: ["M3 6h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z", "M16 10l6-3v10l-6-3"],
+    pin: ["M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z", "M14.5 9a2.5 2.5 0 1 1-5 0a2.5 2.5 0 1 1 5 0"],
+    globe: ["M21 12a9 9 0 1 1-18 0a9 9 0 1 1 18 0", "M3 12h18", "M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"],
+    compass: ["M21 12a9 9 0 1 1-18 0a9 9 0 1 1 18 0", "M15.5 8.5l-2 5-5 2 2-5z"],
+    suitcase: ["M4 8h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z", "M9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3", "M3 13h18"],
+    passport: ["M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z", "M15 10a3 3 0 1 1-6 0a3 3 0 1 1 6 0", "M9 17h6"],
+    ticket: ["M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z", "M14 6v12"],
+    bus: ["M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z", "M4 11h16M7 17v3M17 17v3", "M7.5 14h.01M16.5 14h.01"],
+    bed: ["M3 18V7M3 13h18v5", "M21 13v-1a3 3 0 0 0-3-3h-7v4", "M8.5 10.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 1 1 3 0"],
+    food: ["M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10", "M17 3c-2 1-3 3.5-3 6v3h3V3zM17 12v9"],
+    coffee: ["M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z", "M17 10h1.5a2.5 2.5 0 0 1 0 5H17", "M8 3v3M12 3v3"],
+    mountain: ["M3 20l6-10 4 6 3-4 5 8z", "M14.5 6.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 1 1 3 0"],
+    sun: ["M16 12a4 4 0 1 1-8 0a4 4 0 1 1 8 0", "M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"],
+    star: ["M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"],
+    heart: ["M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"],
+    gift: ["M4 10h16v10H4z", "M3 7h18v3H3z", "M12 7v13", "M12 7S10.5 3 8 3.5 7.5 7 12 7zM12 7s1.5-4 4-3.5S16.5 7 12 7z"],
+    question: ["M21 12a9 9 0 1 1-18 0a9 9 0 1 1 18 0", "M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3", "M12 17h.01"],
+    phone: ["M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"]
+  };
+  var ICON_NAMES = { plane: "هواپیما", chatHeart: "نظر", calendar: "رزرو", lantern: "فانوس", dome: "گنبد", arch: "طاق", person: "من", camera: "دوربین", video: "ویدیو", pin: "مکان", globe: "کره", compass: "قطب‌نما", suitcase: "چمدان", passport: "پاسپورت", ticket: "بلیت", bus: "اتوبوس", bed: "هتل", food: "غذا", coffee: "کافه", mountain: "کوه", sun: "آفتاب", star: "ستاره", heart: "قلب", gift: "هدیه", question: "سؤال", phone: "تماس" };
+  var FONTS = { bebas: ["400", "Bebas Neue"], anton: ["400", "Anton"], montserrat: ["900", "Montserrat"], lalezar: ["400", "Lalezar"], vazir: ["900", "Vazirmatn"], estedad: ["900", "Estedad"] };
+  var FLAGS = ["🇻🇳", "🇺🇿", "🇮🇷", "🇦🇲", "🇬🇪", "🇹🇷", "🇹🇭", "🇨🇳", "🇯🇵", "🇮🇳", "🇲🇾", "🇦🇪", "✈️", "🧳", "📍", "⭐"];
+  var LAPIS = "#14315C", TURQ = "#2FA6A0", SAFFRON = "#E8A33D";
+  var BASE = { name: "تور بعدی", bg: LAPIS, bgSrc: null, bgDim: 35, ring: true, ringColor: TURQ, ringW: 16, ringR: 482, type: "icon", icon: "plane", emoji: "🇻🇳", text: "HAN", font: "bebas", photoSrc: null, photoZoom: 100, color: SAFFRON, size: 480, stroke: 1.25 };
+  function make(o) { var s = JSON.parse(JSON.stringify(BASE)); for (var k in o) s[k] = o[k]; return s; }
+  var DEFAULTS = [
+    make({ name: "تور بعدی", icon: "plane" }),
+    make({ name: "نظر مسافران", icon: "chatHeart" }),
+    make({ name: "رزرو و سؤال", icon: "calendar" }),
+    make({ name: "ویتنام", icon: "lantern" }),
+    make({ name: "ازبکستان", icon: "dome" }),
+    make({ name: "ایران", icon: "arch" }),
+    make({ name: "درباره‌ی من", icon: "person" }),
+    make({ name: "پرچم", type: "emoji", emoji: "🇻🇳", size: 520 }),
+    make({ name: "کد فرودگاه", type: "text", text: "HAN", font: "bebas", size: 560 }),
+    make({ name: "زعفرانی", bg: SAFFRON, ringColor: LAPIS, color: LAPIS, icon: "passport" }),
+    make({ name: "روشن", bg: "#FFFFFF", ringColor: SAFFRON, color: LAPIS, icon: "camera" })
+  ];
+  var state = make({});
+  var imgCache = {};
+  function getImg(src) {
+    if (!src) return null;
+    var im = imgCache[src];
+    if (!im) { im = new Image(); im.onload = render; im.src = src; imgCache[src] = im; }
+    return im.complete && im.naturalWidth ? im : null;
+  }
+
+  function coverDraw(ctx, im, x, y, w, h, zoom) {
+    var s = Math.max(w / im.naturalWidth, h / im.naturalHeight) * (zoom || 1);
+    var dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+    ctx.drawImage(im, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  }
+
+  function drawHL(c, st) {
+    var ctx = c.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = st.bg; ctx.fillRect(0, 0, W, H);
+    var bg = getImg(st.bgSrc);
+    if (bg) {
+      coverDraw(ctx, bg, 0, 0, W, H, 1);
+      ctx.fillStyle = "rgba(0,0,0," + (st.bgDim / 100) + ")"; ctx.fillRect(0, 0, W, H);
+    }
+    var inner = st.ring ? st.ringR - st.ringW / 2 : st.ringR;
+    if (st.type === "photo") {
+      var ph = getImg(st.photoSrc);
+      if (ph) {
+        ctx.save(); ctx.beginPath(); ctx.arc(CX, CY, inner, 0, Math.PI * 2); ctx.clip();
+        coverDraw(ctx, ph, CX - inner, CY - inner, inner * 2, inner * 2, st.photoZoom / 100);
+        ctx.restore();
+      }
+    } else if (st.type === "icon") {
+      var s = st.size / 24;
+      ctx.save(); ctx.translate(CX - st.size / 2, CY - st.size / 2); ctx.scale(s, s);
+      ctx.lineWidth = st.stroke; ctx.strokeStyle = st.color; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      (ICONS[st.icon] || ICONS.plane).forEach(function (d) { ctx.stroke(new Path2D(d)); });
+      ctx.restore();
+    } else if (st.type === "emoji") {
+      ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.direction = "ltr";
+      ctx.font = "400 " + Math.round(st.size * 0.8) + "px " + EMOJI; ctx.fillStyle = "#000";
+      ctx.fillText(st.emoji, CX, CY + st.size * 0.04);
+    } else if (st.type === "text") {
+      var f = FONTS[st.font] || FONTS.bebas, size = Math.round(st.size * 0.45);
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.direction = /[؀-ۿ]/.test(st.text) ? "rtl" : "ltr";
+      ctx.font = f[0] + " " + size + 'px "' + f[1] + '", Vazirmatn, sans-serif';
+      var mw = ctx.measureText(st.text).width, max = inner * 1.6;
+      if (mw > max) { size = Math.floor(size * max / mw); ctx.font = f[0] + " " + size + 'px "' + f[1] + '", Vazirmatn, sans-serif'; }
+      ctx.fillStyle = st.color; ctx.fillText(st.text, CX, CY + size * 0.04);
+    }
+    if (st.ring) {
+      ctx.beginPath(); ctx.arc(CX, CY, st.ringR, 0, Math.PI * 2);
+      ctx.lineWidth = st.ringW; ctx.strokeStyle = st.ringColor; ctx.stroke();
+    }
+  }
+
+  function toCircle(target, src) {
+    var t = target.getContext("2d");
+    t.clearRect(0, 0, target.width, target.height);
+    t.save(); t.beginPath(); t.arc(target.width / 2, target.height / 2, target.width / 2, 0, Math.PI * 2); t.clip();
+    t.drawImage(src, 0, CY - 540, 1080, 1080, 0, 0, target.width, target.height);
+    t.restore();
+  }
+
+  var main = $("hlCanvas"), work = document.createElement("canvas");
+  work.width = W; work.height = H;
+
+  function render() {
+    drawHL(main, state);
+    toCircle($("hlCircle"), main);
+    toCircle($("hlCircleSm"), main);
+    $("hlLabel").textContent = state.name || "هایلایت";
+    var g = main.getContext("2d");
+    g.save(); g.setLineDash([22, 16]); g.lineWidth = 4; g.strokeStyle = "rgba(255,255,255,.55)";
+    g.beginPath(); g.arc(CX, CY, 540, 0, Math.PI * 2); g.stroke(); g.restore();
+  }
+
+  function thumb(st) {
+    var c = document.createElement("canvas"); c.width = 120; c.height = 120;
+    drawHL(work, st); toCircle(c, work);
+    return c;
+  }
+
+  var activeKey = "d0";
+  function tplItem(st, key, onDelete) {
+    var wrap = document.createElement("div"); wrap.className = "tpl";
+    var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", String(key === activeKey));
+    b.appendChild(thumb(st));
+    var sp = document.createElement("span"); sp.textContent = st.name || "بدون نام"; b.appendChild(sp);
+    b.addEventListener("click", function () { state = JSON.parse(JSON.stringify(st)); activeKey = key; syncControls(); loadFontsThenRender(); markTpl(); });
+    wrap.appendChild(b);
+    if (onDelete) {
+      var d = document.createElement("button"); d.type = "button"; d.className = "del"; d.textContent = "×";
+      d.setAttribute("aria-label", "حذف قالب " + (st.name || ""));
+      d.addEventListener("click", function () {
+        if (d.dataset.armed) { onDelete(); return; }
+        d.dataset.armed = "1"; d.textContent = "حذف؟"; d.classList.add("armed");
+        setTimeout(function () { delete d.dataset.armed; d.textContent = "×"; d.classList.remove("armed"); }, 3000);
+      });
+      wrap.appendChild(d);
+    }
+    return wrap;
+  }
+  function markTpl() {
+    Array.prototype.forEach.call(document.querySelectorAll(".tpl > button:first-child"), function (b) { b.setAttribute("aria-pressed", "false"); });
+    var all = document.querySelectorAll("#hlDefaults .tpl, #hlMine .tpl");
+    Array.prototype.forEach.call(all, function (w) { if (w.dataset.key === activeKey) w.firstChild.setAttribute("aria-pressed", "true"); });
+  }
+
+  function loadMine() { try { return JSON.parse(localStorage.getItem("mtl-hl-templates") || "[]"); } catch (e) { return []; } }
+  function saveMine(list) { try { localStorage.setItem("mtl-hl-templates", JSON.stringify(list)); return true; } catch (e) { return false; } }
+
+  function renderDefaults() {
+    var box = $("hlDefaults"); box.textContent = "";
+    DEFAULTS.forEach(function (st, i) { var el = tplItem(st, "d" + i); el.dataset.key = "d" + i; box.appendChild(el); });
+  }
+  function renderMine() {
+    var box = $("hlMine"), list = loadMine(); box.textContent = "";
+    $("hlMineEmpty").hidden = list.length > 0;
+    list.forEach(function (st, i) {
+      var el = tplItem(st, "m" + i, function () {
+        var l = loadMine(); l.splice(i, 1); saveMine(l); if (activeKey === "m" + i) activeKey = ""; renderMine();
+        $("hlStatus").textContent = "قالب حذف شد.";
+      });
+      el.dataset.key = "m" + i; box.appendChild(el);
+    });
+    markTpl();
+  }
+
+  function swatches(boxId, inputId, colors, key) {
+    var box = $(boxId), input = $(inputId);
+    colors.forEach(function (c) {
+      var b = document.createElement("button"); b.type = "button"; b.style.background = c; b.dataset.c = c;
+      b.setAttribute("aria-label", c);
+      b.addEventListener("click", function () { state[key] = c; input.value = c; mark(); render(); });
+      box.insertBefore(b, input);
+    });
+    function mark() {
+      Array.prototype.forEach.call(box.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.c.toLowerCase() === String(state[key]).toLowerCase())); });
+    }
+    input.addEventListener("input", function () { state[key] = input.value; mark(); render(); });
+    return mark;
+  }
+  var palette = [LAPIS, SAFFRON, TURQ, "#FFFFFF", "#0B0F14", "#F3C9D1", "#E5484D"];
+  var markColor = swatches("hlColorSw", "hlColor", palette, "color");
+  var markBg = swatches("hlBgSw", "hlBg", palette, "bg");
+  var markRing = swatches("hlRingSw", "hlRingColor", palette, "ringColor");
+
+  var iconBox = $("hlIcons");
+  Object.keys(ICONS).forEach(function (k) {
+    var b = document.createElement("button"); b.type = "button"; b.dataset.icon = k; b.setAttribute("aria-label", ICON_NAMES[k] || k);
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[k].map(function (d) { return '<path d="' + d + '"></path>'; }).join("") + "</svg>";
+    b.addEventListener("click", function () { state.icon = k; state.type = "icon"; syncControls(); render(); });
+    iconBox.appendChild(b);
+  });
+  var flagBox = $("hlFlags");
+  FLAGS.forEach(function (f) {
+    var b = document.createElement("button"); b.type = "button"; b.dataset.e = f; b.textContent = f; b.setAttribute("aria-label", f);
+    b.addEventListener("click", function () { state.emoji = f; state.type = "emoji"; syncControls(); loadFontsThenRender(); });
+    flagBox.appendChild(b);
+  });
+
+  function syncControls() {
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="hlType"]'), function (r) { r.checked = r.value === state.type; });
+    $("hlIconBox").hidden = state.type !== "icon";
+    $("hlEmojiBox").hidden = state.type !== "emoji";
+    $("hlTextBox").hidden = state.type !== "text";
+    $("hlPhotoBox").hidden = state.type !== "photo";
+    $("hlStrokeRow").hidden = state.type !== "icon";
+    Array.prototype.forEach.call(iconBox.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.icon === state.icon)); });
+    Array.prototype.forEach.call(flagBox.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.e === state.emoji)); });
+    $("hlEmoji").value = state.emoji; $("hlText").value = state.text; $("hlFont").value = state.font;
+    $("hlPhotoZoom").value = state.photoZoom; $("hlSize").value = state.size; $("hlStroke").value = state.stroke;
+    $("hlColor").value = state.color; $("hlBg").value = state.bg; $("hlRingColor").value = state.ringColor;
+    $("hlBgDim").value = state.bgDim; $("hlRing").checked = state.ring; $("hlRingW").value = state.ringW; $("hlRingR").value = state.ringR;
+    $("hlName").value = state.name || "";
+    $("hlBgClear").hidden = !state.bgSrc;
+    markColor(); markBg(); markRing();
+  }
+
+  function loadFontsThenRender() {
+    render();
+    var f = FONTS[state.font] || FONTS.bebas;
+    Promise.all([
+      document.fonts.load(f[0] + ' 100px "' + f[1] + '"', state.text || "A"),
+      document.fonts.load('100px "Noto Color Emoji"', state.emoji || "🇻🇳")
+    ]).then(function () { render(); renderDefaults(); renderMine(); }, render);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="hlType"]'), function (r) {
+    r.addEventListener("change", function () { state.type = r.value; syncControls(); loadFontsThenRender(); });
+  });
+  function bindNum(id, key) { $(id).addEventListener("input", function () { state[key] = +$(id).value; render(); }); }
+  bindNum("hlSize", "size"); bindNum("hlStroke", "stroke"); bindNum("hlPhotoZoom", "photoZoom");
+  bindNum("hlBgDim", "bgDim"); bindNum("hlRingW", "ringW"); bindNum("hlRingR", "ringR");
+  $("hlRing").addEventListener("change", function () { state.ring = $("hlRing").checked; render(); });
+  $("hlEmoji").addEventListener("input", function () { state.emoji = $("hlEmoji").value.trim(); syncControls(); loadFontsThenRender(); });
+  $("hlText").addEventListener("input", function () { state.text = $("hlText").value; loadFontsThenRender(); });
+  $("hlFont").addEventListener("change", function () { state.font = $("hlFont").value; loadFontsThenRender(); });
+  $("hlName").addEventListener("input", function () { state.name = $("hlName").value; $("hlLabel").textContent = state.name || "هایلایت"; });
+
+  function readFile(input, cb) {
+    var f = input.files && input.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var max = 1400, s = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+        var c = document.createElement("canvas"); c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        cb(c.toDataURL("image/jpeg", 0.85));
+      };
+      im.src = r.result;
+    };
+    r.readAsDataURL(f);
+  }
+  $("hlPhoto").addEventListener("change", function () { readFile($("hlPhoto"), function (u) { state.photoSrc = u; state.type = "photo"; syncControls(); render(); }); });
+  $("hlBgPhoto").addEventListener("change", function () { readFile($("hlBgPhoto"), function (u) { state.bgSrc = u; syncControls(); render(); }); });
+  $("hlBgClear").addEventListener("click", function () { state.bgSrc = null; $("hlBgPhoto").value = ""; syncControls(); render(); });
+
+  $("hlSave").addEventListener("click", function () {
+    var st = JSON.parse(JSON.stringify(state));
+    st.name = $("hlName").value.trim() || "قالب بدون نام";
+    var list = loadMine(); list.push(st);
+    if (saveMine(list)) {
+      activeKey = "m" + (list.length - 1); renderMine();
+      $("hlStatus").textContent = "قالب «" + st.name + "» ذخیره شد.";
+    } else {
+      $("hlStatus").textContent = "ذخیره نشد. حافظه‌ی مرورگر پر است یا اجازه‌ی ذخیره ندارد؛ قالب‌های دارای عکس را کمتر نگه دارید.";
+    }
+  });
+
+  $("hlReset").addEventListener("click", function () { state = JSON.parse(JSON.stringify(DEFAULTS[0])); activeKey = "d0"; syncControls(); loadFontsThenRender(); markTpl(); });
+
+  function dataUrlToFile(url, name) {
+    var bin = atob(url.split(",")[1]), arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new File([arr], name, { type: "image/png" });
+  }
+  $("hlDownload").addEventListener("click", function () {
+    drawHL(work, state);
+    var name = "highlight-" + ((state.name || "cover").replace(/[\\/:*?"<>|\s]+/g, "-")) + ".png";
+    var file = dataUrlToFile(work.toDataURL("image/png"), name);
+    var touch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    if (touch && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] }).then(function () { $("hlStatus").textContent = "آماده شد. در منوی اشتراک «ذخیره در گالری» را بزنید."; }, function () {});
+      return;
+    }
+    var a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    $("hlStatus").textContent = "فایل ذخیره شد: " + name;
+  });
+
+  state = JSON.parse(JSON.stringify(DEFAULTS[0]));
+  syncControls();
+  renderDefaults();
+  renderMine();
+  loadFontsThenRender();
+  document.fonts.ready.then(function () { render(); renderDefaults(); renderMine(); });
 })();
 </script>
 </body>
