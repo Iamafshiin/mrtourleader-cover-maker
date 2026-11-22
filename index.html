@@ -14,7 +14,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Noto+Color+Emoji&family=Vazirmatn:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Aref+Ruqaa:wght@700&family=Bebas+Neue&family=Lalezar&family=Montserrat:wght@500;700;800&family=Noto+Color+Emoji&family=Noto+Kufi+Arabic:wght@900&family=Noto+Naskh+Arabic:wght@700&family=Permanent+Marker&family=Playfair+Display:wght@800&family=Rakkas&family=Reem+Kufi:wght@700&family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
 :root{--bg:#0B0F14;--panel:#141B24;--line:#26313D;--ink:#F1F3F5;--muted:#9AA4AF;--lapis:#14315C;--turq:#2FA6A0;--saffron:#E8A33D;--font:"Vazirmatn",Tahoma,"Noto Color Emoji",sans-serif}
 *{box-sizing:border-box}
@@ -41,6 +41,17 @@ legend{padding:0 6px;color:var(--muted);font-size:13px}
 .flags button{width:44px;height:44px;padding:0;border-radius:9px;background:var(--bg);border:1px solid var(--line);font:24px/1 "Noto Color Emoji",var(--font);color:var(--ink);cursor:pointer}
 .flags button[aria-pressed="true"]{border-color:var(--saffron);box-shadow:0 0 0 2px var(--saffron) inset}
 .flags button.clear{width:auto;padding:0 12px;font:700 13px/1 var(--font)}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg label{position:relative;display:block;gap:0}
+.seg input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.seg span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 8px;font-weight:700;font-size:14px;text-align:center}
+.seg input:checked+span{background:var(--saffron);color:#0B0F14}
+.seg input:focus-visible+span{outline:3px solid var(--turq);outline-offset:-3px}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.swatches button{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);padding:0;cursor:pointer}
+.swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--ink)}
+.swatches input[type=color]{width:52px;height:40px;padding:2px;border:1px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer}
+#fontPreview{font-size:13px;color:var(--muted)}
 .actions{display:grid;grid-template-columns:2fr 1fr;gap:10px}
 .btn{font:800 16px/1 var(--font);border:0;border-radius:10px;min-height:50px;padding:0 14px;cursor:pointer;background:var(--saffron);color:#0B0F14}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:700}
@@ -84,6 +95,31 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         <textarea id="title" maxlength="60">من میلادم، همسفرت</textarea>
         <span class="hint">حداکثر پنج کلمه. اگر طولانی باشد خودش به خط بعد می‌رود.</span>
       </label>
+      <div class="seg" role="radiogroup" aria-label="جهت متن">
+        <label><input type="radio" name="dir" value="rtl" checked><span>راست‌به‌چپ · فارسی</span></label>
+        <label><input type="radio" name="dir" value="ltr"><span>Left to right · English</span></label>
+      </div>
+      <label>فونت تیتر
+        <select id="font">
+          <optgroup label="فارسی">
+            <option value="lalezar">لاله‌زار (پیش‌فرض)</option>
+            <option value="vazir">وزیرمتن سیاه</option>
+            <option value="kufi">نوتو کوفی سیاه</option>
+            <option value="reem">ریم کوفی</option>
+            <option value="rakkas">رکاس</option>
+            <option value="ruqaa">رقعه</option>
+            <option value="naskh">نسخ</option>
+          </optgroup>
+          <optgroup label="English">
+            <option value="bebas">Bebas Neue</option>
+            <option value="anton">Anton</option>
+            <option value="montserrat">Montserrat ExtraBold</option>
+            <option value="archivo">Archivo Black</option>
+            <option value="playfair">Playfair Display</option>
+            <option value="marker">Permanent Marker</option>
+          </optgroup>
+        </select>
+      </label>
       <div class="row">
         <label>نوع محتوا
           <select id="series">
@@ -102,6 +138,20 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         <input type="text" id="cta" value="" placeholder="مثلاً: کامنت کن «ویتنام»">
         <span class="hint">خالی بگذارید تا نمایش داده نشود.</span>
       </label>
+      <fieldset>
+        <legend>خط دور باکس تیتر</legend>
+        <label class="check"><input type="checkbox" id="border"> نمایش خط دور</label>
+        <div class="swatches" id="swatches" role="group" aria-label="رنگ خط دور">
+          <button type="button" data-c="#E8A33D" style="background:#E8A33D" aria-label="زعفرانی"></button>
+          <button type="button" data-c="#5CC8C2" style="background:#5CC8C2" aria-label="فیروزه‌ای"></button>
+          <button type="button" data-c="#FFFFFF" style="background:#FFFFFF" aria-label="سفید"></button>
+          <button type="button" data-c="#F3C9D1" style="background:#F3C9D1" aria-label="صورتی"></button>
+          <button type="button" data-c="#E5484D" style="background:#E5484D" aria-label="قرمز"></button>
+          <button type="button" data-c="#3FB950" style="background:#3FB950" aria-label="سبز"></button>
+          <input type="color" id="borderColor" value="#E8A33D" aria-label="رنگ دلخواه">
+        </div>
+        <span class="hint">یکی از رنگ‌ها را بزنید یا از مربع آخر رنگ دلخواه را انتخاب کنید.</span>
+      </fieldset>
       <fieldset>
         <legend>مهر کشور</legend>
         <label class="check"><input type="checkbox" id="stamp" checked> نمایش مهر</label>
@@ -161,7 +211,26 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     personal: { color: C.pink,    outline: false, label: "حرف دل" },
     about:    { color: C.saffron, outline: true,  label: "درباره‌ی من" }
   };
+  var FONTS = {
+    lalezar:    { family: "Lalezar",           weight: "400", size: 103, dir: "rtl" },
+    vazir:      { family: "Vazirmatn",         weight: "900", size: 92,  dir: "rtl" },
+    kufi:       { family: "Noto Kufi Arabic",  weight: "900", size: 80,  dir: "rtl" },
+    reem:       { family: "Reem Kufi",         weight: "700", size: 98,  dir: "rtl" },
+    rakkas:     { family: "Rakkas",            weight: "400", size: 100, dir: "rtl" },
+    ruqaa:      { family: "Aref Ruqaa",        weight: "700", size: 96,  dir: "rtl" },
+    naskh:      { family: "Noto Naskh Arabic", weight: "700", size: 90,  dir: "rtl" },
+    bebas:      { family: "Bebas Neue",        weight: "400", size: 146, dir: "ltr" },
+    anton:      { family: "Anton",             weight: "400", size: 112, dir: "ltr" },
+    montserrat: { family: "Montserrat",        weight: "800", size: 92,  dir: "ltr" },
+    archivo:    { family: "Archivo Black",     weight: "400", size: 90,  dir: "ltr" },
+    playfair:   { family: "Playfair Display",  weight: "800", size: 100, dir: "ltr" },
+    marker:     { family: "Permanent Marker",  weight: "400", size: 96,  dir: "ltr" }
+  };
+  var DEFAULT_FONT = { rtl: "lalezar", ltr: "bebas" };
   var $ = function (id) { return document.getElementById(id); };
+  function getDir() { var r = document.querySelector('input[name="dir"]:checked'); return r ? r.value : "rtl"; }
+  function titleFont() { return FONTS[$("font").value] || FONTS.lalezar; }
+  function fontSpec(f) { return f.weight + " " + f.size + "px \"" + f.family + "\""; }
   var cover = $("cover"), ctx = cover.getContext("2d");
   var tile = $("tile"), tctx = tile.getContext("2d");
   var img = new Image();
@@ -209,26 +278,29 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     var title = $("title").value.trim() || "تیتر ویدیو";
     var label = $("label").value.trim();
     var cta = $("cta").value.trim();
+    var dir = getDir(), rtl = dir === "rtl", tf = titleFont();
+    var small = rtl ? "Vazirmatn" : "Montserrat";
     var x = 54, w = W - 108, padX = 54, padTop = 38, padBottom = 46;
-    ctx.font = font("400", 103, "Lalezar");
+    ctx.direction = dir;
+    ctx.font = font(tf.weight, tf.size, '"' + tf.family + '"');
     var lines = wrap(title, w - padX * 2);
-    var labelH = label ? 74 : 0, titleLH = 136, ctaH = cta ? 80 : 0;
+    var labelH = label ? 74 : 0, titleLH = Math.round(tf.size * 1.32), ctaH = cta ? 80 : 0;
     var h = padTop + labelH + lines.length * titleLH + ctaH + padBottom;
     var bottom = SAFE_TOP + SAFE_H - 66, y = bottom - h;
     roundRect(x, y, w, h, 36);
     ctx.fillStyle = C.lapis; ctx.fill();
-    if (s.outline) { ctx.lineWidth = 7; ctx.strokeStyle = C.saffron; ctx.stroke(); }
-    ctx.direction = "rtl"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
-    var rx = x + w - padX, cy = y + padTop;
+    if ($("border").checked) { ctx.lineWidth = 7; ctx.strokeStyle = $("borderColor").value; ctx.stroke(); }
+    ctx.textAlign = rtl ? "right" : "left"; ctx.textBaseline = "middle";
+    var tx = rtl ? x + w - padX : x + padX, cy = y + padTop;
     if (label) {
-      ctx.font = font("700", 50, "Vazirmatn"); ctx.fillStyle = s.color;
-      ctx.fillText(label, rx, cy + labelH / 2 - 6); cy += labelH;
+      ctx.font = font("700", 50, small); ctx.fillStyle = s.color;
+      ctx.fillText(label, tx, cy + labelH / 2 - 6); cy += labelH;
     }
-    ctx.font = font("400", 103, "Lalezar"); ctx.fillStyle = C.white;
-    lines.forEach(function (l) { ctx.fillText(l, rx, cy + titleLH / 2 + 4); cy += titleLH; });
+    ctx.font = font(tf.weight, tf.size, '"' + tf.family + '"'); ctx.fillStyle = C.white;
+    lines.forEach(function (l) { ctx.fillText(l, tx, cy + titleLH / 2 + 4); cy += titleLH; });
     if (cta) {
-      ctx.font = font("500", 52, "Vazirmatn"); ctx.fillStyle = "#D8DEE6";
-      ctx.fillText(cta, rx, cy + ctaH / 2 - 4);
+      ctx.font = font("500", 52, small); ctx.fillStyle = "#D8DEE6";
+      ctx.fillText(cta, tx, cy + ctaH / 2 - 4);
     }
     return y;
   }
@@ -242,8 +314,9 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     if (code) items.push({ t: code, f: font("800", emoji ? 52 : 62, "Vazirmatn"), lh: emoji ? 60 : 74, dir: "ltr" });
     if (sub) items.push({ t: sub, f: font("700", emoji ? 32 : 38, "Vazirmatn"), lh: emoji ? 44 : 52, dir: "rtl" });
     if (!items.length) return;
-    var r = 126, cx = 63 + r, cy = Math.min(SAFE_TOP + 57 + r, plateTop - r - 30);
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(-10 * Math.PI / 180);
+    var rtl = getDir() === "rtl";
+    var r = 126, cx = rtl ? 63 + r : W - 63 - r, cy = Math.min(SAFE_TOP + 57 + r, plateTop - r - 30);
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate((rtl ? -10 : 10) * Math.PI / 180);
     ctx.beginPath(); ctx.arc(0, 0, r - 5, 0, Math.PI * 2);
     ctx.fillStyle = C.lapis; ctx.fill(); ctx.lineWidth = 9; ctx.strokeStyle = s.color; ctx.stroke();
     ctx.textAlign = "center"; ctx.textBaseline = "middle";
@@ -294,8 +367,44 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     markFlag(); loadEmojiThenDraw();
   });
   $("emoji").addEventListener("input", function () { markFlag(); loadEmojiThenDraw(); });
-  $("series").addEventListener("change", function () { $("label").value = SERIES[$("series").value].label; draw(); });
-  ["title", "label", "cta", "code", "sub", "zoom", "ox", "oy"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  function markSwatch() {
+    var v = $("borderColor").value.toLowerCase();
+    Array.prototype.forEach.call($("swatches").querySelectorAll("button"), function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.c.toLowerCase() === v));
+    });
+  }
+  function applySeriesBorder() {
+    var s = SERIES[$("series").value];
+    $("border").checked = s.outline;
+    $("borderColor").value = s.outline ? C.saffron : s.color;
+    markSwatch();
+  }
+  function loadFontThenDraw() {
+    draw();
+    var tf = titleFont();
+    var sample = $("title").value || (tf.dir === "rtl" ? "ابپچژگ" : "Abc");
+    Promise.all([
+      document.fonts.load(fontSpec(tf), sample),
+      document.fonts.load((getDir() === "rtl" ? "700 50px Vazirmatn" : "700 50px Montserrat"))
+    ]).then(draw, draw);
+  }
+  function applyDir() {
+    var dir = getDir();
+    ["title", "label", "cta"].forEach(function (id) { $(id).setAttribute("dir", dir); });
+    if (titleFont().dir !== dir) $("font").value = DEFAULT_FONT[dir];
+    loadFontThenDraw();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="dir"]'), function (r) { r.addEventListener("change", applyDir); });
+  $("font").addEventListener("change", loadFontThenDraw);
+  $("border").addEventListener("change", draw);
+  $("borderColor").addEventListener("input", function () { $("border").checked = true; markSwatch(); draw(); });
+  $("swatches").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    $("borderColor").value = b.dataset.c; $("border").checked = true; markSwatch(); draw();
+  });
+  $("series").addEventListener("change", function () { $("label").value = SERIES[$("series").value].label; applySeriesBorder(); draw(); });
+  ["label", "cta", "code", "sub", "zoom", "ox", "oy"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  $("title").addEventListener("input", loadFontThenDraw);
   ["stamp", "guides"].forEach(function (id) { $(id).addEventListener("change", draw); });
 
   $("photo").addEventListener("change", function (e) {
@@ -308,7 +417,9 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   $("reset").addEventListener("click", function () {
     $("title").value = "من میلادم، همسفرت"; $("series").value = "about"; $("label").value = SERIES.about.label;
     $("cta").value = ""; $("stamp").checked = true; $("emoji").value = "✈️"; $("code").value = ""; $("sub").value = "";
-    $("zoom").value = 100; $("ox").value = 0; $("oy").value = 0; markFlag(); loadEmojiThenDraw();
+    $("zoom").value = 100; $("ox").value = 0; $("oy").value = 0;
+    document.querySelector('input[name="dir"][value="rtl"]').checked = true; $("font").value = "lalezar";
+    applySeriesBorder(); markFlag(); applyDir(); loadEmojiThenDraw();
   });
 
   function fileName() {
@@ -342,8 +453,11 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   });
 
   markFlag();
+  applySeriesBorder();
+  applyDir();
   draw();
   Promise.all([
+    document.fonts.load("700 50px Montserrat"),
     document.fonts.load("103px Lalezar"),
     document.fonts.load("700 50px Vazirmatn"),
     document.fonts.load("800 62px Vazirmatn"),
