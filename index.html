@@ -273,15 +273,9 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         </div>
       </fieldset>
       <fieldset>
-        <legend>جای باکس تیتر و مهر</legend>
-        <span class="hint">روی پیش‌نمایش بزرگ، باکس تیتر یا مهر را بگیرید و بکشید. یا عدد دقیق را وارد کنید (واحد: پیکسل در کاور ۱۰۸۰×۱۹۲۰).</span>
+        <legend>جای مهر</legend>
+        <span class="hint">روی پیش‌نمایش بزرگ، مهر را بگیرید و بکشید. یا عدد دقیق را وارد کنید (واحد: پیکسل در کاور ۱۰۸۰×۱۹۲۰).</span>
         <label class="check"><input type="checkbox" id="fullWidth" checked> باکس تیتر تمام‌عرض</label>
-        <div class="coords">
-          <b>باکس تیتر</b>
-          <label>X<input type="number" id="plateX" inputmode="numeric" step="1" dir="ltr"></label>
-          <label>Y<input type="number" id="plateY" inputmode="numeric" step="1" dir="ltr"></label>
-          <button type="button" class="mini-btn" id="plateCenter">وسط</button>
-        </div>
         <div class="coords">
           <b>مهر</b>
           <label>X<input type="number" id="stampX" inputmode="numeric" step="1" dir="ltr"></label>
@@ -624,7 +618,6 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   function setVal(id, v) { var el = $(id); if (document.activeElement !== el) el.value = Math.round(v); }
 
   function syncCoords() {
-    if (lastPlate) { setVal("plateX", lastPlate.x); setVal("plateY", lastPlate.y); }
     var on = !!lastStamp;
     ["stampX", "stampY", "stampCenter"].forEach(function (id) { $(id).disabled = !on; });
     if (on) { setVal("stampX", lastStamp.cx); setVal("stampY", lastStamp.cy); }
@@ -652,7 +645,6 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   }
   function hitTest(p) {
     if (lastStamp && Math.hypot(p.x - lastStamp.cx, p.y - lastStamp.cy) <= lastStamp.r) return "stamp";
-    if (lastPlate && p.x >= lastPlate.x && p.x <= lastPlate.x + lastPlate.w && p.y >= lastPlate.y && p.y <= lastPlate.y + lastPlate.h) return "plate";
     return null;
   }
   cover.addEventListener("pointerdown", function (e) {
@@ -691,10 +683,8 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   cover.addEventListener("pointercancel", endDrag);
 
   function readPair(a, b) { var x = parseFloat($(a).value), y = parseFloat($(b).value); return isNaN(x) || isNaN(y) ? null : { x: x, y: y }; }
-  ["plateX", "plateY"].forEach(function (id) { $(id).addEventListener("input", function () { var v = readPair("plateX", "plateY"); if (v) { pos.plate = v; draw(); } }); });
   ["stampX", "stampY"].forEach(function (id) { $(id).addEventListener("input", function () { var v = readPair("stampX", "stampY"); if (v) { pos.stamp = v; draw(); } }); });
-  ["plateX", "plateY", "stampX", "stampY"].forEach(function (id) { $(id).addEventListener("change", draw); });
-  $("plateCenter").addEventListener("click", function () { if (lastPlate) { pos.plate = { x: W / 2 - lastPlate.w / 2, y: lastPlate.y }; draw(); } });
+  ["stampX", "stampY"].forEach(function (id) { $(id).addEventListener("change", draw); });
   $("stampCenter").addEventListener("click", function () { if (lastStamp) { pos.stamp = { x: W / 2, y: lastStamp.cy }; draw(); } });
   $("resetPos").addEventListener("click", function () { pos.plate = null; pos.stamp = null; draw(); });
   $("fullWidth").addEventListener("change", draw);
