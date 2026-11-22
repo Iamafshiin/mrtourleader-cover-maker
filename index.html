@@ -75,6 +75,10 @@ legend{padding:0 6px;color:var(--muted);font-size:13px}
 #hlCanvas{aspect-ratio:9/16;border-radius:14px}
 canvas.circle{border-radius:50%;aspect-ratio:1/1;background:transparent}
 .hl-circles{gap:14px}
+#hlCanvas{touch-action:none}
+.mini.mini-hl canvas{width:76px;height:76px;border-radius:50%;margin:6px auto 4px}
+.mini.mini-hl{width:88px}
+.sub-title{font-size:13.5px;color:var(--ink)}
 .hl-small{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--ink)}
 .hl-small canvas{width:66px;height:66px;box-shadow:0 0 0 2px #3A4350,0 0 0 4px var(--bg)}
 .slide{display:grid;grid-template-columns:6.5em minmax(0,1fr);align-items:center;gap:10px;font-size:13.5px}
@@ -321,6 +325,17 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         <span class="hint">قالب‌ها فقط روی همین گوشی یا مرورگر ذخیره می‌شوند.</span>
       </fieldset>
       <fieldset>
+        <legend>جای المان‌ها</legend>
+        <span class="hint">روی پیش‌نمایش بزرگ، آیکون یا متن را بگیرید و بکشید. برای جابه‌جایی حلقه، خود خط حلقه را بگیرید.</span>
+        <b class="sub-title">محتوای وسط</b>
+        <label class="slide">چپ و راست<input type="range" id="hlOx" min="-540" max="540" step="1" value="0" dir="ltr"></label>
+        <label class="slide">بالا و پایین<input type="range" id="hlOy" min="-700" max="700" step="1" value="0" dir="ltr"></label>
+        <b class="sub-title">حلقه</b>
+        <label class="slide">چپ و راست<input type="range" id="hlRx" min="-300" max="300" step="1" value="0" dir="ltr"></label>
+        <label class="slide">بالا و پایین<input type="range" id="hlRy" min="-300" max="300" step="1" value="0" dir="ltr"></label>
+        <button type="button" class="mini-btn" id="hlCenterAll">برگرداندن همه به وسط</button>
+      </fieldset>
+      <fieldset>
         <legend>محتوای وسط</legend>
         <div class="seg seg4" role="radiogroup" aria-label="نوع محتوا">
           <label><input type="radio" name="hlType" value="icon" checked><span>آیکون</span></label>
@@ -384,6 +399,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         <figcaption>در پروفایل</figcaption>
       </figure>
     </div>
+    <button type="button" class="mini mini-hl is-hidden" id="hlMini" aria-label="رفتن به پیش‌نمایش بزرگ هایلایت"><canvas id="hlMiniCanvas" width="152" height="152"></canvas><span>پیش‌نمایش</span></button>
   </div>
   </section>
 </main>
@@ -883,7 +899,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   var FONTS = { bebas: ["400", "Bebas Neue"], anton: ["400", "Anton"], montserrat: ["900", "Montserrat"], lalezar: ["400", "Lalezar"], vazir: ["900", "Vazirmatn"], estedad: ["900", "Estedad"] };
   var FLAGS = ["🇻🇳", "🇺🇿", "🇮🇷", "🇦🇲", "🇬🇪", "🇹🇷", "🇹🇭", "🇨🇳", "🇯🇵", "🇮🇳", "🇲🇾", "🇦🇪", "✈️", "🧳", "📍", "⭐"];
   var LAPIS = "#14315C", TURQ = "#2FA6A0", SAFFRON = "#E8A33D";
-  var BASE = { name: "تور بعدی", bg: LAPIS, bgSrc: null, bgDim: 35, ring: true, ringColor: TURQ, ringW: 16, ringR: 482, type: "icon", icon: "plane", emoji: "🇻🇳", text: "HAN", font: "bebas", photoSrc: null, photoZoom: 100, color: SAFFRON, size: 480, stroke: 1.25 };
+  var BASE = { name: "تور بعدی", bg: LAPIS, bgSrc: null, bgDim: 35, ring: true, ringColor: TURQ, ringW: 16, ringR: 482, type: "icon", icon: "plane", emoji: "🇻🇳", text: "HAN", font: "bebas", photoSrc: null, photoZoom: 100, color: SAFFRON, size: 480, stroke: 1.25, ox: 0, oy: 0, rx: 0, ry: 0 };
   function make(o) { var s = JSON.parse(JSON.stringify(BASE)); for (var k in o) s[k] = o[k]; return s; }
   var DEFAULTS = [
     make({ name: "تور بعدی", icon: "plane" }),
@@ -924,23 +940,24 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
       ctx.fillStyle = "rgba(0,0,0," + (st.bgDim / 100) + ")"; ctx.fillRect(0, 0, W, H);
     }
     var inner = st.ring ? st.ringR - st.ringW / 2 : st.ringR;
+    var ox = st.ox || 0, oy = st.oy || 0, rcx = CX + (st.rx || 0), rcy = CY + (st.ry || 0), ccx = CX + ox, ccy = CY + oy;
     if (st.type === "photo") {
       var ph = getImg(st.photoSrc);
       if (ph) {
-        ctx.save(); ctx.beginPath(); ctx.arc(CX, CY, inner, 0, Math.PI * 2); ctx.clip();
-        coverDraw(ctx, ph, CX - inner, CY - inner, inner * 2, inner * 2, st.photoZoom / 100);
+        ctx.save(); ctx.beginPath(); ctx.arc(rcx, rcy, inner, 0, Math.PI * 2); ctx.clip();
+        coverDraw(ctx, ph, rcx - inner + ox, rcy - inner + oy, inner * 2, inner * 2, st.photoZoom / 100);
         ctx.restore();
       }
     } else if (st.type === "icon") {
       var s = st.size / 24;
-      ctx.save(); ctx.translate(CX - st.size / 2, CY - st.size / 2); ctx.scale(s, s);
+      ctx.save(); ctx.translate(ccx - st.size / 2, ccy - st.size / 2); ctx.scale(s, s);
       ctx.lineWidth = st.stroke; ctx.strokeStyle = st.color; ctx.lineCap = "round"; ctx.lineJoin = "round";
       (ICONS[st.icon] || ICONS.plane).forEach(function (d) { ctx.stroke(new Path2D(d)); });
       ctx.restore();
     } else if (st.type === "emoji") {
       ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.direction = "ltr";
       ctx.font = "400 " + Math.round(st.size * 0.8) + "px " + EMOJI; ctx.fillStyle = "#000";
-      ctx.fillText(st.emoji, CX, CY + st.size * 0.04);
+      ctx.fillText(st.emoji, ccx, ccy + st.size * 0.04);
     } else if (st.type === "text") {
       var f = FONTS[st.font] || FONTS.bebas, size = Math.round(st.size * 0.45);
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
@@ -948,10 +965,10 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
       ctx.font = f[0] + " " + size + 'px "' + f[1] + '", Vazirmatn, sans-serif';
       var mw = ctx.measureText(st.text).width, max = inner * 1.6;
       if (mw > max) { size = Math.floor(size * max / mw); ctx.font = f[0] + " " + size + 'px "' + f[1] + '", Vazirmatn, sans-serif'; }
-      ctx.fillStyle = st.color; ctx.fillText(st.text, CX, CY + size * 0.04);
+      ctx.fillStyle = st.color; ctx.fillText(st.text, ccx, ccy + size * 0.04);
     }
     if (st.ring) {
-      ctx.beginPath(); ctx.arc(CX, CY, st.ringR, 0, Math.PI * 2);
+      ctx.beginPath(); ctx.arc(rcx, rcy, st.ringR, 0, Math.PI * 2);
       ctx.lineWidth = st.ringW; ctx.strokeStyle = st.ringColor; ctx.stroke();
     }
   }
@@ -967,14 +984,23 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   var main = $("hlCanvas"), work = document.createElement("canvas");
   work.width = W; work.height = H;
 
+  var hlDrag = null, hlSnap = false;
   function render() {
     drawHL(main, state);
     toCircle($("hlCircle"), main);
     toCircle($("hlCircleSm"), main);
+    toCircle($("hlMiniCanvas"), main);
     $("hlLabel").textContent = state.name || "هایلایت";
     var g = main.getContext("2d");
     g.save(); g.setLineDash([22, 16]); g.lineWidth = 4; g.strokeStyle = "rgba(255,255,255,.55)";
-    g.beginPath(); g.arc(CX, CY, 540, 0, Math.PI * 2); g.stroke(); g.restore();
+    g.beginPath(); g.arc(CX, CY, 540, 0, Math.PI * 2); g.stroke();
+    if (hlDrag) {
+      g.setLineDash([18, 12]); g.lineWidth = 6; g.strokeStyle = SAFFRON;
+      if (hlDrag.k === "ring") { g.beginPath(); g.arc(CX + state.rx, CY + state.ry, state.ringR + state.ringW / 2 + 16, 0, Math.PI * 2); g.stroke(); }
+      else { var h = state.size / 2 + 20; g.strokeRect(CX + state.ox - h, CY + state.oy - h, h * 2, h * 2); }
+      if (hlSnap) { g.setLineDash([]); g.lineWidth = 4; g.strokeStyle = "#FF4FD8"; g.beginPath(); g.moveTo(CX, 0); g.lineTo(CX, H); g.moveTo(0, CY); g.lineTo(W, CY); g.stroke(); }
+    }
+    g.restore();
   }
 
   function thumb(st) {
@@ -1076,6 +1102,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     $("hlColor").value = state.color; $("hlBg").value = state.bg; $("hlRingColor").value = state.ringColor;
     $("hlBgDim").value = state.bgDim; $("hlRing").checked = state.ring; $("hlRingW").value = state.ringW; $("hlRingR").value = state.ringR;
     $("hlName").value = state.name || "";
+    $("hlOx").value = state.ox || 0; $("hlOy").value = state.oy || 0; $("hlRx").value = state.rx || 0; $("hlRy").value = state.ry || 0;
     $("hlBgClear").hidden = !state.bgSrc;
     markColor(); markBg(); markRing();
   }
@@ -1095,6 +1122,57 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   function bindNum(id, key) { $(id).addEventListener("input", function () { state[key] = +$(id).value; render(); }); }
   bindNum("hlSize", "size"); bindNum("hlStroke", "stroke"); bindNum("hlPhotoZoom", "photoZoom");
   bindNum("hlBgDim", "bgDim"); bindNum("hlRingW", "ringW"); bindNum("hlRingR", "ringR");
+  bindNum("hlOx", "ox"); bindNum("hlOy", "oy"); bindNum("hlRx", "rx"); bindNum("hlRy", "ry");
+  $("hlCenterAll").addEventListener("click", function () { state.ox = 0; state.oy = 0; state.rx = 0; state.ry = 0; syncControls(); render(); });
+
+  function hlPoint(e) {
+    var r = main.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height };
+  }
+  function hlHit(p) {
+    if (state.ring) {
+      var d = Math.hypot(p.x - (CX + (state.rx || 0)), p.y - (CY + (state.ry || 0)));
+      if (Math.abs(d - state.ringR) <= state.ringW / 2 + 40) return "ring";
+    }
+    return "content";
+  }
+  main.addEventListener("pointerdown", function (e) {
+    var p = hlPoint(e), k = hlHit(p);
+    e.preventDefault(); main.setPointerCapture(e.pointerId);
+    hlDrag = { k: k, sx: p.x, sy: p.y, a: k === "ring" ? (state.rx || 0) : (state.ox || 0), b: k === "ring" ? (state.ry || 0) : (state.oy || 0) };
+    main.style.cursor = "grabbing"; render();
+  });
+  main.addEventListener("pointermove", function (e) {
+    var p = hlPoint(e);
+    if (!hlDrag) { main.style.cursor = "grab"; return; }
+    e.preventDefault();
+    var nx = Math.round(hlDrag.a + p.x - hlDrag.sx), ny = Math.round(hlDrag.b + p.y - hlDrag.sy);
+    hlSnap = false;
+    if (Math.abs(nx) < 18) { nx = 0; hlSnap = true; }
+    if (Math.abs(ny) < 18) { ny = 0; hlSnap = true; }
+    if (hlDrag.k === "ring") { state.rx = Math.max(-300, Math.min(300, nx)); state.ry = Math.max(-300, Math.min(300, ny)); }
+    else { state.ox = Math.max(-540, Math.min(540, nx)); state.oy = Math.max(-700, Math.min(700, ny)); }
+    $("hlOx").value = state.ox || 0; $("hlOy").value = state.oy || 0; $("hlRx").value = state.rx || 0; $("hlRy").value = state.ry || 0;
+    render();
+  });
+  function hlEnd() { if (!hlDrag) return; hlDrag = null; hlSnap = false; main.style.cursor = ""; render(); }
+  main.addEventListener("pointerup", hlEnd);
+  main.addEventListener("pointercancel", hlEnd);
+
+  var hlStageVisible = true, hlTyping = false;
+  function updateHlMini() { $("hlMini").classList.toggle("is-hidden", hlStageVisible || hlTyping); }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) { hlStageVisible = entries[0].isIntersecting; updateHlMini(); }, { threshold: 0.25 })
+      .observe(document.querySelector("#tab-hl .fig-cover"));
+  }
+  $("hlForm").addEventListener("focusin", function (e) {
+    if (e.target.matches('input[type="text"], textarea, select')) { hlTyping = true; updateHlMini(); }
+  });
+  $("hlForm").addEventListener("focusout", function () { hlTyping = false; setTimeout(updateHlMini, 150); });
+  $("hlMini").addEventListener("click", function () {
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    document.querySelector("#tab-hl .stage").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   $("hlRing").addEventListener("change", function () { state.ring = $("hlRing").checked; render(); });
   $("hlEmoji").addEventListener("input", function () { state.emoji = $("hlEmoji").value.trim(); syncControls(); loadFontsThenRender(); });
   $("hlText").addEventListener("input", function () { state.text = $("hlText").value; loadFontsThenRender(); });
