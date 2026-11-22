@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Aref+Ruqaa:wght@700&family=Bebas+Neue&family=Lalezar&family=Montserrat:wght@500;700;800&family=Noto+Color+Emoji&family=Noto+Kufi+Arabic:wght@900&family=Noto+Naskh+Arabic:wght@700&family=Permanent+Marker&family=Playfair+Display:wght@800&family=Rakkas&family=Reem+Kufi:wght@700&family=Vazirmatn:wght@400;500;700;800;900&display=swap">
 <style>
-:root{--bg:#0B0F14;--panel:#141B24;--line:#26313D;--ink:#F1F3F5;--muted:#9AA4AF;--lapis:#14315C;--turq:#2FA6A0;--saffron:#E8A33D;--font:"Vazirmatn",Tahoma,"Noto Color Emoji",sans-serif}
+:root{--bg:#0B0F14;--panel:#141B24;--line:#26313D;--ink:#F1F3F5;--muted:#9AA4AF;--lapis:#14315C;--turq:#2FA6A0;--saffron:#E8A33D;--emoji:"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji";--font:"Vazirmatn",Tahoma,var(--emoji),sans-serif}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 var(--font)}
@@ -38,7 +38,7 @@ input[type=file]::file-selector-button{font:700 14px var(--font);border:0;border
 fieldset{min-width:0;min-inline-size:0;border:1px solid var(--line);border-radius:10px;padding:12px;margin:0;display:flex;flex-direction:column;gap:12px}
 legend{padding:0 6px;color:var(--muted);font-size:13px}
 .flags{display:flex;flex-wrap:wrap;gap:6px}
-.flags button{width:44px;height:44px;padding:0;border-radius:9px;background:var(--bg);border:1px solid var(--line);font:24px/1 "Noto Color Emoji",var(--font);color:var(--ink);cursor:pointer}
+.flags button{width:44px;height:44px;padding:0;border-radius:9px;background:var(--bg);border:1px solid var(--line);font:24px/1 var(--emoji),sans-serif;color:var(--ink);cursor:pointer}
 .flags button[aria-pressed="true"]{border-color:var(--saffron);box-shadow:0 0 0 2px var(--saffron) inset}
 .flags button.clear{width:auto;padding:0 12px;font:700 13px/1 var(--font)}
 .seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
@@ -65,14 +65,19 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
 #cover{aspect-ratio:9/16;border-radius:14px}
 #tile{aspect-ratio:3/4;border-radius:4px}
 .status{margin:0;color:var(--muted);font-size:13px;min-height:1.7em}
+.mini{display:none;position:fixed;z-index:5;left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:76px;padding:0;border:0;border-radius:10px;overflow:hidden;background:var(--lapis);box-shadow:0 8px 24px rgba(0,0,0,.55),0 0 0 2px var(--saffron);cursor:pointer;transition:opacity .2s ease,transform .2s ease}
+.mini canvas{width:76px;height:135px;border-radius:0}
+.mini span{display:block;font:700 10px/1.8 var(--font);color:#0B0F14;background:var(--saffron);text-align:center}
+.mini.is-hidden{opacity:0;transform:translateY(16px);pointer-events:none}
+@media (prefers-reduced-motion:reduce){.mini{transition:none}}
 @media (max-width:860px){
   .app{grid-template-columns:minmax(0,1fr);gap:18px}
-  .stage{order:-1;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:12px;align-items:end;position:sticky;top:0;z-index:2;background:var(--bg);padding-block:8px;margin-inline:-4px;padding-inline:4px}
+  .stage{order:-1;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:12px;align-items:end}
   .fig-cover,.fig-tile{width:auto}
   .stage figcaption{font-size:12px}
-}
-@media (max-width:860px) and (max-height:760px){
-  .stage{position:static}
+  .mini{display:block}
+  .panel{padding-bottom:24px}
+  .wrap{padding-bottom:calc(190px + env(safe-area-inset-bottom,0px))}
 }
 @media (max-width:380px){
   .row{grid-template-columns:minmax(0,1fr)}
@@ -197,12 +202,13 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
       <figure class="fig-cover"><canvas id="cover" width="1080" height="1920" aria-label="پیش‌نمایش کاور ۹ در ۱۶"></canvas><figcaption>کاور ریلز ۹:۱۶</figcaption></figure>
       <figure class="fig-tile"><canvas id="tile" width="540" height="720" aria-label="پیش‌نمایش خانه‌ی گرید ۳ در ۴"></canvas><figcaption>در گرید پروفایل (۳:۴)</figcaption></figure>
     </div>
+    <button type="button" class="mini is-hidden" id="mini" aria-label="رفتن به پیش‌نمایش بزرگ"><canvas id="miniCanvas" width="152" height="270"></canvas><span>پیش‌نمایش</span></button>
   </div>
 </main>
 <script>
 (function () {
   var W = 1080, H = 1920, SAFE_TOP = 240, SAFE_H = 1440;
-  var EMOJI = '"Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji"';
+  var EMOJI = '"Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji"';
   var C = { lapis: "#14315C", turq: "#5CC8C2", saffron: "#E8A33D", pink: "#F3C9D1", white: "#FFFFFF" };
   var SERIES = {
     travel:   { color: C.turq,    outline: false, label: "سفرنامه ازبکستان" },
@@ -233,6 +239,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   function fontSpec(f) { return f.weight + " " + f.size + "px \"" + f.family + "\""; }
   var cover = $("cover"), ctx = cover.getContext("2d");
   var tile = $("tile"), tctx = tile.getContext("2d");
+  var miniCanvas = $("miniCanvas"), mctx = miniCanvas.getContext("2d");
   var img = new Image();
   var hasImg = false;
   img.onload = function () { hasImg = true; draw(); };
@@ -341,6 +348,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     drawStamp(plateTop);
     tctx.clearRect(0, 0, tile.width, tile.height);
     tctx.drawImage(cover, 0, SAFE_TOP, W, SAFE_H, 0, 0, tile.width, tile.height);
+    mctx.drawImage(cover, 0, 0, W, H, 0, 0, miniCanvas.width, miniCanvas.height);
     if (withGuides) drawGuides();
   }
 
@@ -450,6 +458,22 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
     $("status").textContent = "فایل ذخیره شد: " + name;
+  });
+
+  var stageVisible = true, typing = false;
+  function updateMini() { $("mini").classList.toggle("is-hidden", stageVisible || typing); }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      stageVisible = entries[0].isIntersecting; updateMini();
+    }, { threshold: 0.25 }).observe(document.querySelector(".fig-cover"));
+  }
+  $("form").addEventListener("focusin", function (e) {
+    if (e.target.matches('input[type="text"], textarea, select')) { typing = true; updateMini(); }
+  });
+  $("form").addEventListener("focusout", function () { typing = false; setTimeout(updateMini, 150); });
+  $("mini").addEventListener("click", function () {
+    document.activeElement && document.activeElement.blur && document.activeElement.blur();
+    document.querySelector(".stage").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   markFlag();
