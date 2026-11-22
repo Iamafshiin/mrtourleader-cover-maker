@@ -176,14 +176,14 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
         </label>
         <label>Font for English lines
           <select id="fontEn" dir="ltr">
-            <option value="bebas">Bebas Neue (default)</option>
+            <option value="bebas">Bebas Neue</option>
             <option value="anton">Anton</option>
             <option value="oswald">Oswald</option>
             <option value="montserrat">Montserrat Black</option>
             <option value="poppins">Poppins ExtraBold</option>
             <option value="archivo">Archivo Black</option>
             <option value="spartan">League Spartan</option>
-            <option value="bricolage">Bricolage Grotesque</option>
+            <option value="bricolage" selected>Bricolage Grotesque (default)</option>
             <option value="grotesk">Space Grotesk</option>
             <option value="playfair">Playfair Display</option>
             <option value="dmserif">DM Serif Display</option>
@@ -443,7 +443,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
   var $ = function (id) { return document.getElementById(id); };
   function getDir() { var r = document.querySelector('input[name="dir"]:checked'); return r ? r.value : "rtl"; }
   function faFont() { return FA_FONTS[$("font").value] || FA_FONTS.lalezar; }
-  function enFont() { return EN_FONTS[$("fontEn").value] || EN_FONTS.bebas; }
+  function enFont() { return EN_FONTS[$("fontEn").value] || EN_FONTS.bricolage; }
   function fontSpec(f) { return f.weight + " " + f.size + "px \"" + f.family + "\""; }
   var RTL_CHAR = /[֐-ࣿיִ-﷿ﹰ-﻿]/, LTR_CHAR = /[A-Za-zÀ-ɏ]/;
   function lineDir(text, fallback) {
@@ -770,7 +770,7 @@ canvas{display:block;width:100%;height:auto;background:var(--lapis)}
     $("title").value = "من میلادم، همسفرت"; $("series").value = "about"; $("label").value = SERIES.about.label;
     $("cta").value = ""; $("stamp").checked = true; $("emoji").value = "✈️"; $("code").value = ""; $("sub").value = "";
     $("zoom").value = 100; $("ox").value = 0; $("oy").value = 0;
-    document.querySelector('input[name="dir"][value="rtl"]').checked = true; $("font").value = "lalezar"; $("fontEn").value = "bebas"; $("align").value = "auto"; $("gridTop").value = 240;
+    document.querySelector('input[name="dir"][value="rtl"]').checked = true; $("font").value = "lalezar"; $("fontEn").value = "bricolage"; $("align").value = "auto"; $("gridTop").value = 240;
     resetLayout(); applySeriesBorder(); markFlag(); applyDir(); loadEmojiThenDraw();
   });
 
